@@ -166,7 +166,7 @@ huseyinfiliz-traderfeedback:
       badge_format_custom: Custom format
       
       badge_custom_format_label: Custom format template
-      badge_custom_format_help: "Available variables: {total}, {score}, {positive}, {neutral}, {negative}"
+      badge_custom_format_help: "Available variables: total, score, positive, neutral, negative (wrap in curly braces)"
       badge_custom_format_invalid: "Invalid variables found: {vars}"
       badge_custom_format_invalid_preview: "Invalid format"
       

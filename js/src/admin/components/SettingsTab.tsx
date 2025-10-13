@@ -123,7 +123,7 @@ export default class SettingsTab extends Component {
           </div>
         </div>
 
-        {/* Badge Display Settings - YENİ SECTION */}
+        {/* Badge Display Settings */}
         <div className="SettingsSection SettingsSection--badge">
           <h3>
             <i className="fas fa-tag"></i>
@@ -147,7 +147,8 @@ export default class SettingsTab extends Component {
               <input
                 type="text"
                 className="FormControl"
-                bidi={page.setting('huseyinfiliz.traderfeedback.badgeCustomPrefix')}
+                value={page.setting('huseyinfiliz.traderfeedback.badgeCustomPrefix')()}
+                oninput={(e) => page.setting('huseyinfiliz.traderfeedback.badgeCustomPrefix')(e.target.value)}
                 placeholder={app.translator.trans('huseyinfiliz-traderfeedback.admin.settings.badge_custom_prefix_placeholder')}
               />
               <p className="helpText">
@@ -160,8 +161,11 @@ export default class SettingsTab extends Component {
               <label>{app.translator.trans('huseyinfiliz-traderfeedback.admin.settings.badge_format_label')}</label>
               <select
                 className="FormControl"
-                bidi={page.setting('huseyinfiliz.traderfeedback.badgeFormat')}
-                onchange={() => m.redraw()}
+                value={page.setting('huseyinfiliz.traderfeedback.badgeFormat')()}
+                onchange={(e) => {
+                  page.setting('huseyinfiliz.traderfeedback.badgeFormat')(e.target.value);
+                  m.redraw();
+                }}
               >
                 <option value="percentage">
                   {app.translator.trans('huseyinfiliz-traderfeedback.admin.settings.badge_format_percentage')} — 100%
@@ -213,8 +217,11 @@ export default class SettingsTab extends Component {
                   className={'FormControl' + (page.customFormatError ? ' error' : '')}
                   rows="3"
                   oncreate={(vnode) => { page.customFormatTextarea = vnode.dom; }}
-                  bidi={page.setting('huseyinfiliz.traderfeedback.badgeCustomFormat')}
-                  oninput={(e) => page.validateAndPreview(e.target.value)}
+                  value={page.setting('huseyinfiliz.traderfeedback.badgeCustomFormat')()}
+                  oninput={(e) => {
+                    page.setting('huseyinfiliz.traderfeedback.badgeCustomFormat')(e.target.value);
+                    page.validateAndPreview(e.target.value);
+                  }}
                   placeholder="{total} ({score}%) - {positive}P / {neutral}N / {negative}N"
                 />
 
@@ -270,18 +277,14 @@ export default class SettingsTab extends Component {
               </p>
             </div>
 
-            {/* Only First Post */}
+            {/* Only First Post - Switch olarak */}
             <div className="Form-group">
-              <label className="checkbox">
-                <input
-                  type="checkbox"
-                  bidi={page.setting('huseyinfiliz.traderfeedback.badgeOnlyFirstPost')}
-                />
-                <span>{app.translator.trans('huseyinfiliz-traderfeedback.admin.settings.badge_only_first_post_label')}</span>
-              </label>
-              <p className="helpText">
-                {app.translator.trans('huseyinfiliz-traderfeedback.admin.settings.badge_only_first_post_help')}
-              </p>
+              {buildSettingComponent({
+                type: 'boolean',
+                setting: 'huseyinfiliz.traderfeedback.badgeOnlyFirstPost',
+                label: app.translator.trans('huseyinfiliz-traderfeedback.admin.settings.badge_only_first_post_label'),
+                help: app.translator.trans('huseyinfiliz-traderfeedback.admin.settings.badge_only_first_post_help'),
+              })}
             </div>
           </div>
         </div>
