@@ -123,6 +123,76 @@ export default class SettingsTab extends Component {
           </div>
         </div>
 
+        {/* Post Feedback Actions Settings (YENİ BÖLÜM) */}
+        <div className="SettingsSection">
+          <h3>
+            <i className="fas fa-hand-pointer"></i>
+            {app.translator.trans('huseyinfiliz-traderfeedback.admin.settings.section_post_feedback_actions')}
+          </h3>
+          
+          <div className="SettingsSection-content">
+            {/* Post Menu Button */}
+            <div className="Form-group">
+              {buildSettingComponent({
+                type: 'boolean',
+                setting: 'huseyinfiliz.traderfeedback.showFeedbackInPostMenu',
+                label: app.translator.trans('huseyinfiliz-traderfeedback.admin.settings.show_feedback_in_post_menu_label'),
+                help: app.translator.trans('huseyinfiliz-traderfeedback.admin.settings.show_feedback_in_post_menu_help'),
+              })}
+            </div>
+
+            {/* Below Reply/Follow Button */}
+            <div className="Form-group">
+              {buildSettingComponent({
+                type: 'boolean',
+                setting: 'huseyinfiliz.traderfeedback.showFeedbackBelowReply',
+                label: app.translator.trans('huseyinfiliz-traderfeedback.admin.settings.show_feedback_below_reply_label'),
+                help: app.translator.trans('huseyinfiliz-traderfeedback.admin.settings.show_feedback_below_reply_help'),
+              })}
+            </div>
+
+            {/* Post Footer Button */}
+            <div className="Form-group">
+              {buildSettingComponent({
+                type: 'boolean',
+                setting: 'huseyinfiliz.traderfeedback.showFeedbackInPostFooter',
+                label: app.translator.trans('huseyinfiliz-traderfeedback.admin.settings.show_feedback_in_post_footer_label'),
+                help: app.translator.trans('huseyinfiliz-traderfeedback.admin.settings.show_feedback_in_post_footer_help'),
+              })}
+            </div>
+
+            {/* Tag Filter for Actions */}
+            <div className="Form-group">
+              <label>{app.translator.trans('huseyinfiliz-traderfeedback.admin.settings.feedback_action_tag_filter_label')}</label>
+              {buildSettingComponent({
+                type: 'flarum-tags.select-tags',
+                setting: 'huseyinfiliz.traderfeedback.feedbackActionTagFilter',
+                options: {
+                  requireParentTag: false,
+                  limits: {
+                    max: {
+                      secondary: 0,
+                    },
+                  },
+                },
+              })}
+              <p className="helpText">
+                {app.translator.trans('huseyinfiliz-traderfeedback.admin.settings.feedback_action_tag_filter_help')}
+              </p>
+            </div>
+
+            {/* Only When Locked */}
+            <div className="Form-group">
+              {buildSettingComponent({
+                type: 'boolean',
+                setting: 'huseyinfiliz.traderfeedback.feedbackOnlyWhenLocked',
+                label: app.translator.trans('huseyinfiliz-traderfeedback.admin.settings.feedback_only_when_locked_label'),
+                help: app.translator.trans('huseyinfiliz-traderfeedback.admin.settings.feedback_only_when_locked_help'),
+              })}
+            </div>
+          </div>
+        </div>
+
         {/* Badge Display Settings */}
         <div className="SettingsSection SettingsSection--badge">
           <h3>

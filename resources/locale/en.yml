@@ -111,6 +111,18 @@ huseyinfiliz-traderfeedback:
       format_count_percentage: "{total} ({score}%)"
       format_letters: "{positive}P / {neutral}N / {negative}N"
       format_symbols: "+{positive} ={neutral} -{negative}"
+
+    # NEW: Post/Discussion action texts
+    post_actions:
+      give_feedback: "Give Feedback"
+      give_feedback_short: "Feedback"
+    
+    discussion_actions:
+      give_feedback: "Give Feedback"
+      select_user_title: "Select user to give feedback"
+      select_user_label: "Select User"
+      no_users_found: "No other users found in this discussion to give feedback"
+      continue: "Continue"
   
   # Admin translations
   admin:
@@ -133,6 +145,10 @@ huseyinfiliz-traderfeedback:
       section_discussion: Discussion Settings
       section_comment: Comment Settings
       section_requirements: User Requirements
+
+      # NEW: Section title for post feedback actions
+      section_post_feedback_actions: "Post Feedback Actions"
+
       section_badge_display: Badge Display Settings
       
       allow_negative_label: Allow negative feedback
@@ -148,6 +164,18 @@ huseyinfiliz-traderfeedback:
       min_days_help: Users must be a member for this many days before giving feedback (0 = disabled)
       min_posts_label: Minimum posts required  
       min_posts_help: Users must have this many posts before giving feedback (0 = disabled)
+
+      # NEW: Post Feedback Actions Settings
+      show_feedback_in_post_menu_label: "Show 'Give Feedback' button in post menu"
+      show_feedback_in_post_menu_help: "Adds 'Give Feedback' button to post dropdown menu (won't show on own posts)"
+      show_feedback_below_reply_label: "Show 'Give Feedback' below Reply/Follow buttons"
+      show_feedback_below_reply_help: "Adds feedback button below reply and follow buttons in discussion sidebar"
+      show_feedback_in_post_footer_label: "Show 'Give Feedback' button in post footer"
+      show_feedback_in_post_footer_help: "Adds feedback button to the bottom-left of each post (won't show on own posts)"
+      feedback_action_tag_filter_label: "Show feedback buttons only in these tags"
+      feedback_action_tag_filter_help: "Leave empty to show in all discussions. Select specific tags to limit button visibility to those tags only."
+      feedback_only_when_locked_label: "Show only in locked discussions"
+      feedback_only_when_locked_help: "When enabled, feedback buttons will only appear in locked discussions (requires flarum-lock extension)"
       
       # Badge Display Settings
       show_badge_in_posts_label: Show trader badge in posts

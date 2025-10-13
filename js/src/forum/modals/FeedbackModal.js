@@ -1,3 +1,9 @@
+/**
+ * FeedbackModal.js DEĞİŞİKLİKLERİ
+ * 
+ * Dosya: js/src/forum/modals/FeedbackModal.js
+ */
+
 import Modal from 'flarum/common/components/Modal';
 import Button from 'flarum/common/components/Button';
 import Select from 'flarum/common/components/Select';
@@ -17,6 +23,17 @@ export default class FeedbackModal extends Modal {
     this.comment = Stream('');
     this.discussionInput = Stream('');
     this.discussionId = null;
+
+    // Tartışmadan elde edilen kullanıcıları tutmak için
+    this.discussionUsers = [];
+
+    // YENİ: Eğer autoFillDiscussion true ise ve discussionUrl varsa, otomatik doldur
+    if (this.attrs.autoFillDiscussion && this.attrs.discussionUrl) {
+      this.discussionInput(this.attrs.discussionUrl);
+      this.parseDiscussionId(this.attrs.discussionUrl);
+      // parse sonrası kullanıcıları yükle
+      this.loadDiscussionUsers();
+    }
   }
   
   className() {
@@ -78,6 +95,8 @@ export default class FeedbackModal extends Modal {
             oninput: (e) => {
               this.discussionInput(e.target.value);
               this.parseDiscussionId(e.target.value);
+              // YENİ: parse Discussion ID'den sonra çağrılacak
+              this.loadDiscussionUsers();
             },
             placeholder: app.translator.trans('huseyinfiliz-traderfeedback.forum.form.discussion_placeholder'),
             required: requireDiscussion,
@@ -130,6 +149,36 @@ export default class FeedbackModal extends Modal {
     }
     
     this.discussionId = null;
+  }
+
+  /**
+   * YENİ METHOD
+   * Tartışmadaki kullanıcıları yükler (sadece konu sahibi için)
+   * parseDiscussionId sonrasında çağrılır.
+   */
+  loadDiscussionUsers() {
+    if (!this.discussionId) return;
+
+    // Discussion'ı yükle ve kullanıcıları al
+    app.store.find('discussions', this.discussionId, {
+      include: 'posts,posts.user'
+    }).then((discussion) => {
+      const posts = discussion.posts();
+      const uniqueUsers = new Map();
+      const currentUserId = app.session.user?.id();
+
+      if (posts) {
+        posts.forEach((post) => {
+          const postUser = post.user();
+          if (postUser && postUser.id() !== currentUserId) {
+            uniqueUsers.set(postUser.id(), postUser);
+          }
+        });
+      }
+
+      this.discussionUsers = Array.from(uniqueUsers.values());
+      m.redraw();
+    });
   }
   
   onsubmit(e) {

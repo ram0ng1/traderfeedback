@@ -159,20 +159,40 @@ return [
         ->default('huseyinfiliz.traderfeedback.maxLength', 1000)
         ->default('huseyinfiliz.traderfeedback.minDays', 0)
         ->default('huseyinfiliz.traderfeedback.minPosts', 0)
+
+        // NEW: Post/Discussion feedback action defaults
+        ->default('huseyinfiliz.traderfeedback.showFeedbackInPostMenu', false)
+        ->default('huseyinfiliz.traderfeedback.showFeedbackBelowReply', false)
+        ->default('huseyinfiliz.traderfeedback.showFeedbackInPostFooter', false)
+        ->default('huseyinfiliz.traderfeedback.feedbackActionTagFilter', '[]')
+        ->default('huseyinfiliz.traderfeedback.feedbackOnlyWhenLocked', false)
+
         ->default('huseyinfiliz.traderfeedback.showBadgeInPosts', true)
+
         // Badge display settings
         ->default('huseyinfiliz.traderfeedback.badgeCustomPrefix', '')
         ->default('huseyinfiliz.traderfeedback.badgeFormat', 'percentage')
         ->default('huseyinfiliz.traderfeedback.badgeCustomFormat', '{total} ({score}%) - {positive}P / {neutral}N / {negative}N')
         ->default('huseyinfiliz.traderfeedback.badgeTagFilter', '[]')
         ->default('huseyinfiliz.traderfeedback.badgeOnlyFirstPost', false)
+
+        // Serialize to forum
         ->serializeToForum('huseyinfiliz.traderfeedback.requireApproval', 'huseyinfiliz.traderfeedback.requireApproval', 'boolval')
         ->serializeToForum('huseyinfiliz.traderfeedback.allowNegative', 'huseyinfiliz.traderfeedback.allowNegative', 'boolval')
         ->serializeToForum('huseyinfiliz.traderfeedback.requireDiscussion', 'huseyinfiliz.traderfeedback.requireDiscussion', 'boolval')
         ->serializeToForum('huseyinfiliz.traderfeedback.onePerDiscussion', 'huseyinfiliz.traderfeedback.onePerDiscussion', 'boolval')
         ->serializeToForum('huseyinfiliz.traderfeedback.minLength', 'huseyinfiliz.traderfeedback.minLength', 'intval')
         ->serializeToForum('huseyinfiliz.traderfeedback.maxLength', 'huseyinfiliz.traderfeedback.maxLength', 'intval')
+
+        // NEW: Post/Discussion feedback action serialization
+        ->serializeToForum('huseyinfiliz.traderfeedback.showFeedbackInPostMenu', 'huseyinfiliz.traderfeedback.showFeedbackInPostMenu', 'boolval')
+        ->serializeToForum('huseyinfiliz.traderfeedback.showFeedbackBelowReply', 'huseyinfiliz.traderfeedback.showFeedbackBelowReply', 'boolval')
+        ->serializeToForum('huseyinfiliz.traderfeedback.showFeedbackInPostFooter', 'huseyinfiliz.traderfeedback.showFeedbackInPostFooter', 'boolval')
+        ->serializeToForum('huseyinfiliz.traderfeedback.feedbackActionTagFilter', 'huseyinfiliz.traderfeedback.feedbackActionTagFilter')
+        ->serializeToForum('huseyinfiliz.traderfeedback.feedbackOnlyWhenLocked', 'huseyinfiliz.traderfeedback.feedbackOnlyWhenLocked', 'boolval')
+
         ->serializeToForum('huseyinfiliz.traderfeedback.showBadgeInPosts', 'huseyinfiliz.traderfeedback.showBadgeInPosts', 'boolval')
+
         // Badge display serialization
         ->serializeToForum('huseyinfiliz.traderfeedback.badgeCustomPrefix', 'huseyinfiliz.traderfeedback.badgeCustomPrefix')
         ->serializeToForum('huseyinfiliz.traderfeedback.badgeFormat', 'huseyinfiliz.traderfeedback.badgeFormat')
