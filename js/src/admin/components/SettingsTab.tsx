@@ -3,10 +3,11 @@ import Component from 'flarum/common/Component';
 
 export default class SettingsTab extends Component {
   view() {
-    const { buildSettingComponent, submitButton } = this.attrs;
+    const { buildSettingComponent, submitButton, page } = this.attrs;
 
     return (
       <div className="TraderFeedbackSettings">
+        {/* General Settings */}
         <div className="SettingsSection">
           <h3>
             <i className="fas fa-cog"></i>
@@ -29,18 +30,10 @@ export default class SettingsTab extends Component {
                 label: app.translator.trans('huseyinfiliz-traderfeedback.admin.settings.allow_negative_label'),
               })}
             </div>
-
-            <div className="Form-group">
-              {buildSettingComponent({
-                type: 'boolean',
-                setting: 'huseyinfiliz.traderfeedback.showBadgeInPosts',
-                label: app.translator.trans('huseyinfiliz-traderfeedback.admin.settings.show_badge_in_posts_label'),
-                help: app.translator.trans('huseyinfiliz-traderfeedback.admin.settings.show_badge_in_posts_help'),
-              })}
-            </div>
           </div>
         </div>
 
+        {/* Discussion Settings */}
         <div className="SettingsSection">
           <h3>
             <i className="fas fa-comments"></i>
@@ -68,6 +61,7 @@ export default class SettingsTab extends Component {
           </div>
         </div>
 
+        {/* Comment Settings */}
         <div className="SettingsSection">
           <h3>
             <i className="fas fa-comment-dots"></i>
@@ -97,6 +91,7 @@ export default class SettingsTab extends Component {
           </div>
         </div>
 
+        {/* User Requirements */}
         <div className="SettingsSection">
           <h3>
             <i className="fas fa-user-check"></i>
@@ -128,6 +123,170 @@ export default class SettingsTab extends Component {
           </div>
         </div>
 
+        {/* Badge Display Settings - YENİ SECTION */}
+        <div className="SettingsSection SettingsSection--badge">
+          <h3>
+            <i className="fas fa-tag"></i>
+            {app.translator.trans('huseyinfiliz-traderfeedback.admin.settings.section_badge_display')}
+          </h3>
+          
+          <div className="SettingsSection-content">
+            {/* Show Badge Toggle */}
+            <div className="Form-group">
+              {buildSettingComponent({
+                type: 'boolean',
+                setting: 'huseyinfiliz.traderfeedback.showBadgeInPosts',
+                label: app.translator.trans('huseyinfiliz-traderfeedback.admin.settings.show_badge_in_posts_label'),
+                help: app.translator.trans('huseyinfiliz-traderfeedback.admin.settings.show_badge_in_posts_help'),
+              })}
+            </div>
+
+            {/* Custom Prefix */}
+            <div className="Form-group">
+              <label>{app.translator.trans('huseyinfiliz-traderfeedback.admin.settings.badge_custom_prefix_label')}</label>
+              <input
+                type="text"
+                className="FormControl"
+                bidi={page.setting('huseyinfiliz.traderfeedback.badgeCustomPrefix')}
+                placeholder={app.translator.trans('huseyinfiliz-traderfeedback.admin.settings.badge_custom_prefix_placeholder')}
+              />
+              <p className="helpText">
+                {app.translator.trans('huseyinfiliz-traderfeedback.admin.settings.badge_custom_prefix_help')}
+              </p>
+            </div>
+
+            {/* Format Selection */}
+            <div className="Form-group">
+              <label>{app.translator.trans('huseyinfiliz-traderfeedback.admin.settings.badge_format_label')}</label>
+              <select
+                className="FormControl"
+                bidi={page.setting('huseyinfiliz.traderfeedback.badgeFormat')}
+                onchange={() => m.redraw()}
+              >
+                <option value="percentage">
+                  {app.translator.trans('huseyinfiliz-traderfeedback.admin.settings.badge_format_percentage')} — 100%
+                </option>
+                <option value="count_percentage">
+                  {app.translator.trans('huseyinfiliz-traderfeedback.admin.settings.badge_format_count_percentage')} — 8 (88%)
+                </option>
+                <option value="letters">
+                  {app.translator.trans('huseyinfiliz-traderfeedback.admin.settings.badge_format_letters')} — 5P / 2N / 1N
+                </option>
+                <option value="symbols">
+                  {app.translator.trans('huseyinfiliz-traderfeedback.admin.settings.badge_format_symbols')} — +5 =2 -1
+                </option>
+                <option value="custom">
+                  {app.translator.trans('huseyinfiliz-traderfeedback.admin.settings.badge_format_custom')}
+                </option>
+              </select>
+              <p className="helpText">
+                {app.translator.trans('huseyinfiliz-traderfeedback.admin.settings.badge_format_help')}
+              </p>
+            </div>
+
+            {/* Custom Format Editor */}
+            {page.setting('huseyinfiliz.traderfeedback.badgeFormat')() === 'custom' && (
+              <div className="Form-group TraderFeedback-customFormat">
+                <label>{app.translator.trans('huseyinfiliz-traderfeedback.admin.settings.badge_custom_format_label')}</label>
+                
+                {/* Variable Toolbar */}
+                <div className="TraderFeedback-variableToolbar">
+                  <button type="button" className="Button" onclick={() => page.insertVariable('{total}')}>
+                    <i className="fas fa-hashtag"></i> {app.translator.trans('huseyinfiliz-traderfeedback.admin.settings.badge_var_total')}
+                  </button>
+                  <button type="button" className="Button" onclick={() => page.insertVariable('{score}')}>
+                    <i className="fas fa-percentage"></i> {app.translator.trans('huseyinfiliz-traderfeedback.admin.settings.badge_var_score')}
+                  </button>
+                  <button type="button" className="Button" onclick={() => page.insertVariable('{positive}')}>
+                    <i className="fas fa-thumbs-up"></i> {app.translator.trans('huseyinfiliz-traderfeedback.admin.settings.badge_var_positive')}
+                  </button>
+                  <button type="button" className="Button" onclick={() => page.insertVariable('{neutral}')}>
+                    <i className="fas fa-minus"></i> {app.translator.trans('huseyinfiliz-traderfeedback.admin.settings.badge_var_neutral')}
+                  </button>
+                  <button type="button" className="Button" onclick={() => page.insertVariable('{negative}')}>
+                    <i className="fas fa-thumbs-down"></i> {app.translator.trans('huseyinfiliz-traderfeedback.admin.settings.badge_var_negative')}
+                  </button>
+                </div>
+
+                {/* Textarea */}
+                <textarea
+                  className={'FormControl' + (page.customFormatError ? ' error' : '')}
+                  rows="3"
+                  oncreate={(vnode) => { page.customFormatTextarea = vnode.dom; }}
+                  bidi={page.setting('huseyinfiliz.traderfeedback.badgeCustomFormat')}
+                  oninput={(e) => page.validateAndPreview(e.target.value)}
+                  placeholder="{total} ({score}%) - {positive}P / {neutral}N / {negative}N"
+                />
+
+                {/* Validation Error */}
+                {page.customFormatError && (
+                  <div className="TraderFeedback-formatError">
+                    <i className="fas fa-exclamation-triangle"></i> {page.customFormatError}
+                  </div>
+                )}
+
+                {/* Live Preview */}
+                <div className="TraderFeedback-preview">
+                  <div className="TraderFeedback-preview-label">
+                    <i className="fas fa-eye"></i> {app.translator.trans('huseyinfiliz-traderfeedback.admin.settings.badge_preview_label')}
+                  </div>
+                  <div className="TraderFeedback-preview-badge">
+                    <span className="TraderBadge TraderBadge--inline">
+                      <i className="fas fa-shopping-cart"></i>
+                      {page.setting('huseyinfiliz.traderfeedback.badgeCustomPrefix')() && (
+                        <span className="TraderBadge-prefix">{page.setting('huseyinfiliz.traderfeedback.badgeCustomPrefix')()}</span>
+                      )}
+                      <span className="TraderBadge-score">{page.customFormatPreview}</span>
+                    </span>
+                  </div>
+                  <div className="TraderFeedback-preview-stats">
+                    {app.translator.trans('huseyinfiliz-traderfeedback.admin.settings.badge_preview_sample')}
+                  </div>
+                </div>
+
+                <p className="helpText">
+                  {app.translator.trans('huseyinfiliz-traderfeedback.admin.settings.badge_custom_format_help')}
+                </p>
+              </div>
+            )}
+
+            {/* Tag Filter */}
+            <div className="Form-group">
+              <label>{app.translator.trans('huseyinfiliz-traderfeedback.admin.settings.badge_tag_filter_label')}</label>
+              {buildSettingComponent({
+                type: 'flarum-tags.select-tags',
+                setting: 'huseyinfiliz.traderfeedback.badgeTagFilter',
+                options: {
+                  requireParentTag: false,
+                  limits: {
+                    max: {
+                      secondary: 0,
+                    },
+                  },
+                },
+              })}
+              <p className="helpText">
+                {app.translator.trans('huseyinfiliz-traderfeedback.admin.settings.badge_tag_filter_help')}
+              </p>
+            </div>
+
+            {/* Only First Post */}
+            <div className="Form-group">
+              <label className="checkbox">
+                <input
+                  type="checkbox"
+                  bidi={page.setting('huseyinfiliz.traderfeedback.badgeOnlyFirstPost')}
+                />
+                <span>{app.translator.trans('huseyinfiliz-traderfeedback.admin.settings.badge_only_first_post_label')}</span>
+              </label>
+              <p className="helpText">
+                {app.translator.trans('huseyinfiliz-traderfeedback.admin.settings.badge_only_first_post_help')}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Submit Button */}
         <div className="Form-group">
           {submitButton()}
         </div>

@@ -644,3 +644,94 @@
     color: @primary-color;
   }
 }
+
+// ==========================================
+// TRADER BADGE STYLES (Forum Posts)
+// ==========================================
+
+.TraderBadge {
+  &--inline {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 8px;
+    background: fade(@primary-color, 12%);
+    border-radius: 10px;
+    font-size: 11px;
+    vertical-align: middle;
+    
+    .fas.fa-shopping-cart {
+      color: @primary-color;
+    }
+  }
+  
+  &-prefix {
+    font-weight: 600;
+    color: @text-color;
+    margin-right: 2px;
+    
+    @media @phone {
+      display: none; // Hide prefix on mobile for space
+    }
+  }
+  
+  &-score {
+    font-weight: 700;
+    color: @primary-color;
+  }
+}
+
+// Dark mode support
+.dark-mode {
+  .TraderBadge {
+    &--inline {
+      background: fade(@primary-color, 18%);
+    }
+  }
+}
+
+
+// ==========================================
+// TRADER BADGE STYLES (Forum Posts)
+// ==========================================
+
+.TraderBadge {
+  &--inline {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 8px;
+    background: fade(@primary-color, 12%);
+    border-radius: 10px;
+    font-size: 11px;
+    vertical-align: middle;
+    
+    .fas.fa-shopping-cart {
+      color: @primary-color;
+    }
+  }
+  
+  &-prefix {
+    font-weight: 600;
+    color: @text-color;
+    margin-right: 2px;
+    
+    @media @phone {
+      display: none; // Hide prefix on mobile for space
+    }
+  }
+  
+  &-score {
+    font-weight: 700;
+    color: @primary-color;
+  }
+}
+
+// Dark mode support
+.dark-mode {
+  .TraderBadge {
+    &--inline {
+      background: fade(@primary-color, 18%);
+    }
+  }
+}

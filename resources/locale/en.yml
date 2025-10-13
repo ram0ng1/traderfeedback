@@ -104,6 +104,13 @@ huseyinfiliz-traderfeedback:
       notify_new_feedback_label: "Someone gives me feedback"
       notify_feedback_approved_label: "My feedback is approved"
       notify_feedback_rejected_label: "My feedback is rejected"
+    
+    # Badge format translations
+    badge:
+      format_percentage: "{score}%"
+      format_count_percentage: "{total} ({score}%)"
+      format_letters: "{positive}P / {neutral}N / {negative}N"
+      format_symbols: "+{positive} ={neutral} -{negative}"
   
   # Admin translations
   admin:
@@ -126,6 +133,7 @@ huseyinfiliz-traderfeedback:
       section_discussion: Discussion Settings
       section_comment: Comment Settings
       section_requirements: User Requirements
+      section_badge_display: Badge Display Settings
       
       allow_negative_label: Allow negative feedback
       require_approval_label: Require approval for feedback
@@ -140,8 +148,43 @@ huseyinfiliz-traderfeedback:
       min_days_help: Users must be a member for this many days before giving feedback (0 = disabled)
       min_posts_label: Minimum posts required  
       min_posts_help: Users must have this many posts before giving feedback (0 = disabled)
+      
+      # Badge Display Settings
       show_badge_in_posts_label: Show trader badge in posts
       show_badge_in_posts_help: Display user's trader score next to their username in forum posts
+      
+      badge_custom_prefix_label: Custom prefix text
+      badge_custom_prefix_placeholder: "e.g., Trader Score:, Rating:, Feedback:"
+      badge_custom_prefix_help: Optional text to display before the badge (leave empty for no prefix)
+      
+      badge_format_label: Badge format
+      badge_format_help: Choose how the trader badge should be displayed
+      badge_format_percentage: Percentage only
+      badge_format_count_percentage: Count with percentage
+      badge_format_letters: Letter format
+      badge_format_symbols: Symbol format
+      badge_format_custom: Custom format
+      
+      badge_custom_format_label: Custom format template
+      badge_custom_format_help: "Available variables: {total}, {score}, {positive}, {neutral}, {negative}"
+      badge_custom_format_invalid: "Invalid variables found: {vars}"
+      badge_custom_format_invalid_preview: "Invalid format"
+      
+      badge_var_total: Total
+      badge_var_score: Score
+      badge_var_positive: Positive
+      badge_var_neutral: Neutral
+      badge_var_negative: Negative
+      
+      badge_preview_label: "Live Preview:"
+      badge_preview_sample: "Sample data: 5 positive, 2 neutral, 1 negative (88% score)"
+      
+      badge_tag_filter_label: Show badge only in these tags
+      badge_tag_filter_help: Leave empty to show badge in all discussions. Select specific tags to limit badge display.
+      badge_tag_filter_tags_required: "Tags extension is required for tag filtering"
+      
+      badge_only_first_post_label: Show badge only in first post
+      badge_only_first_post_help: When enabled, the badge will only appear in the first post of discussions
     
     dashboard:
       title: Trader Feedback Statistics

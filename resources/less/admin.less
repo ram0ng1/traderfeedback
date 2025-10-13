@@ -907,3 +907,417 @@ button {
     page-break-inside: avoid;
   }
 }
+
+// ==========================================
+// BADGE DISPLAY SECTION STYLES
+// ==========================================
+
+.SettingsSection--badge {
+  background: fade(@control-bg, 15%);
+  border: 2px solid @control-bg;
+}
+
+// Custom Format Editor
+.TraderFeedback-customFormat {
+  .TraderFeedback-variableToolbar {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+    
+    .Button {
+      padding: 6px 12px;
+      border: 1px solid @control-bg;
+      border-radius: 4px;
+      background: @control-bg;
+      color: @text-color;
+      cursor: pointer;
+      font-size: 12px;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      
+      &:hover {
+        background: darken(@control-bg, 5%);
+        border-color: @primary-color;
+        color: @primary-color;
+      }
+      
+      i {
+        font-size: 13px;
+      }
+    }
+  }
+  
+  textarea.FormControl {
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Courier New', monospace;
+    font-size: 13px;
+    min-height: 80px;
+    
+    &.error {
+      border-color: @error-color;
+    }
+  }
+  
+  .TraderFeedback-formatError {
+    color: @error-color;
+    font-size: 12px;
+    margin-top: 8px;
+    padding: 10px 12px;
+    background: fade(@error-color, 10%);
+    border-radius: 4px;
+    border-left: 3px solid @error-color;
+    
+    i {
+      margin-right: 6px;
+    }
+  }
+  
+  .TraderFeedback-preview {
+    margin-top: 15px;
+    padding: 15px;
+    background: @body-bg;
+    border: 1px solid @control-bg;
+    border-radius: 8px;
+    
+    &-label {
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: @muted-color;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      
+      i {
+        color: @primary-color;
+      }
+    }
+    
+    &-badge {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+      padding: 10px;
+      background: fade(@control-bg, 30%);
+      border-radius: 6px;
+      
+      .TraderBadge {
+        font-size: 14px;
+      }
+    }
+    
+    &-stats {
+      font-size: 11px;
+      color: @muted-more-color;
+      font-style: italic;
+    }
+  }
+}
+
+// Badge Preview in Settings
+.TraderBadge {
+  &--inline {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    background: fade(@primary-color, 12%);
+    border-radius: 12px;
+    font-size: 12px;
+    vertical-align: middle;
+    
+    .fas.fa-shopping-cart {
+      color: @primary-color;
+      font-size: 13px;
+    }
+  }
+  
+  &-prefix {
+    font-weight: 600;
+    color: @text-color;
+    margin-right: 2px;
+  }
+  
+  &-score {
+    font-weight: 700;
+    color: @primary-color;
+  }
+}
+
+// Badge Examples Section
+.SettingsSection--preview {
+  .BadgeExamples {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+  }
+  
+  .BadgeExample {
+    padding: 12px;
+    background: @control-bg;
+    border: 2px solid @control-bg;
+    border-radius: 8px;
+    transition: all 0.2s;
+    
+    &--active {
+      border-color: @primary-color;
+      background: fade(@primary-color, 5%);
+    }
+    
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    &-label {
+      font-size: 11px;
+      color: @muted-color;
+      margin-bottom: 8px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+    
+    &-badge {
+      display: flex;
+      justify-content: center;
+    }
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .TraderFeedback-customFormat {
+    .TraderFeedback-variableToolbar {
+      gap: 6px;
+      
+      .Button {
+        padding: 5px 10px;
+        font-size: 11px;
+        
+        span {
+          display: none;
+        }
+        
+        i {
+          margin: 0;
+        }
+      }
+    }
+  }
+  
+  .BadgeExamples {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+// ==========================================
+// BADGE DISPLAY SECTION STYLES
+// ==========================================
+
+.SettingsSection--badge {
+  background: fade(@control-bg, 15%);
+  border: 2px solid @control-bg;
+}
+
+// Custom Format Editor
+.TraderFeedback-customFormat {
+  .TraderFeedback-variableToolbar {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+    
+    .Button {
+      padding: 6px 12px;
+      border: 1px solid @control-bg;
+      border-radius: 4px;
+      background: @control-bg;
+      color: @text-color;
+      cursor: pointer;
+      font-size: 12px;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      
+      &:hover {
+        background: darken(@control-bg, 5%);
+        border-color: @primary-color;
+        color: @primary-color;
+      }
+      
+      i {
+        font-size: 13px;
+      }
+    }
+  }
+  
+  textarea.FormControl {
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Courier New', monospace;
+    font-size: 13px;
+    min-height: 80px;
+    
+    &.error {
+      border-color: @error-color;
+    }
+  }
+  
+  .TraderFeedback-formatError {
+    color: @error-color;
+    font-size: 12px;
+    margin-top: 8px;
+    padding: 10px 12px;
+    background: fade(@error-color, 10%);
+    border-radius: 4px;
+    border-left: 3px solid @error-color;
+    
+    i {
+      margin-right: 6px;
+    }
+  }
+  
+  .TraderFeedback-preview {
+    margin-top: 15px;
+    padding: 15px;
+    background: @body-bg;
+    border: 1px solid @control-bg;
+    border-radius: 8px;
+    
+    &-label {
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: @muted-color;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      
+      i {
+        color: @primary-color;
+      }
+    }
+    
+    &-badge {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+      padding: 10px;
+      background: fade(@control-bg, 30%);
+      border-radius: 6px;
+      
+      .TraderBadge {
+        font-size: 14px;
+      }
+    }
+    
+    &-stats {
+      font-size: 11px;
+      color: @muted-more-color;
+      font-style: italic;
+    }
+  }
+}
+
+// Badge Preview in Settings
+.TraderBadge {
+  &--inline {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    background: fade(@primary-color, 12%);
+    border-radius: 12px;
+    font-size: 12px;
+    vertical-align: middle;
+    
+    .fas.fa-shopping-cart {
+      color: @primary-color;
+      font-size: 13px;
+    }
+  }
+  
+  &-prefix {
+    font-weight: 600;
+    color: @text-color;
+    margin-right: 2px;
+  }
+  
+  &-score {
+    font-weight: 700;
+    color: @primary-color;
+  }
+}
+
+// Badge Examples Section
+.SettingsSection--preview {
+  .BadgeExamples {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+  }
+  
+  .BadgeExample {
+    padding: 12px;
+    background: @control-bg;
+    border: 2px solid @control-bg;
+    border-radius: 8px;
+    transition: all 0.2s;
+    
+    &--active {
+      border-color: @primary-color;
+      background: fade(@primary-color, 5%);
+    }
+    
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    &-label {
+      font-size: 11px;
+      color: @muted-color;
+      margin-bottom: 8px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+    
+    &-badge {
+      display: flex;
+      justify-content: center;
+    }
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .TraderFeedback-customFormat {
+    .TraderFeedback-variableToolbar {
+      gap: 6px;
+      
+      .Button {
+        padding: 5px 10px;
+        font-size: 11px;
+        
+        span {
+          display: none;
+        }
+        
+        i {
+          margin: 0;
+        }
+      }
+    }
+  }
+  
+  .BadgeExamples {
+    grid-template-columns: 1fr !important;
+  }
+}

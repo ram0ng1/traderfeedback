@@ -160,11 +160,23 @@ return [
         ->default('huseyinfiliz.traderfeedback.minDays', 0)
         ->default('huseyinfiliz.traderfeedback.minPosts', 0)
         ->default('huseyinfiliz.traderfeedback.showBadgeInPosts', true)
+        // Badge display settings
+        ->default('huseyinfiliz.traderfeedback.badgeCustomPrefix', '')
+        ->default('huseyinfiliz.traderfeedback.badgeFormat', 'percentage')
+        ->default('huseyinfiliz.traderfeedback.badgeCustomFormat', '{total} ({score}%) - {positive}P / {neutral}N / {negative}N')
+        ->default('huseyinfiliz.traderfeedback.badgeTagFilter', '[]')
+        ->default('huseyinfiliz.traderfeedback.badgeOnlyFirstPost', false)
         ->serializeToForum('huseyinfiliz.traderfeedback.requireApproval', 'huseyinfiliz.traderfeedback.requireApproval', 'boolval')
         ->serializeToForum('huseyinfiliz.traderfeedback.allowNegative', 'huseyinfiliz.traderfeedback.allowNegative', 'boolval')
         ->serializeToForum('huseyinfiliz.traderfeedback.requireDiscussion', 'huseyinfiliz.traderfeedback.requireDiscussion', 'boolval')
         ->serializeToForum('huseyinfiliz.traderfeedback.onePerDiscussion', 'huseyinfiliz.traderfeedback.onePerDiscussion', 'boolval')
         ->serializeToForum('huseyinfiliz.traderfeedback.minLength', 'huseyinfiliz.traderfeedback.minLength', 'intval')
         ->serializeToForum('huseyinfiliz.traderfeedback.maxLength', 'huseyinfiliz.traderfeedback.maxLength', 'intval')
-        ->serializeToForum('huseyinfiliz.traderfeedback.showBadgeInPosts', 'huseyinfiliz.traderfeedback.showBadgeInPosts', 'boolval'),
+        ->serializeToForum('huseyinfiliz.traderfeedback.showBadgeInPosts', 'huseyinfiliz.traderfeedback.showBadgeInPosts', 'boolval')
+        // Badge display serialization
+        ->serializeToForum('huseyinfiliz.traderfeedback.badgeCustomPrefix', 'huseyinfiliz.traderfeedback.badgeCustomPrefix')
+        ->serializeToForum('huseyinfiliz.traderfeedback.badgeFormat', 'huseyinfiliz.traderfeedback.badgeFormat')
+        ->serializeToForum('huseyinfiliz.traderfeedback.badgeCustomFormat', 'huseyinfiliz.traderfeedback.badgeCustomFormat')
+        ->serializeToForum('huseyinfiliz.traderfeedback.badgeTagFilter', 'huseyinfiliz.traderfeedback.badgeTagFilter')
+        ->serializeToForum('huseyinfiliz.traderfeedback.badgeOnlyFirstPost', 'huseyinfiliz.traderfeedback.badgeOnlyFirstPost', 'boolval'),
 ];

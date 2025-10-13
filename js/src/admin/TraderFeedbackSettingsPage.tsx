@@ -13,10 +13,28 @@ export default class TraderFeedbackSettingsPage extends ExtensionPage {
   pendingFeedbacks: any[] = [];
   stats: any = null;
   included: any[] = [];
+  
+  // Badge settings - bu kez sadece helper değişkenler olarak
+  customFormatPreview: any = '';
+  customFormatError: any = '';
+  customFormatTextarea: any = null;
 
   oninit(vnode: any) {
     super.oninit(vnode);
+    
+    // Badge settings'i this.settings'e bağla (ExtensionPage'in built-in sistemi)
+    this.setting('huseyinfiliz.traderfeedback.badgeFormat', 'percentage');
+    this.setting('huseyinfiliz.traderfeedback.badgeCustomFormat', '{total} ({score}%) - {positive}P / {neutral}N / {negative}N');
+    this.setting('huseyinfiliz.traderfeedback.badgeCustomPrefix', '');
+    this.setting('huseyinfiliz.traderfeedback.badgeTagFilter', '[]');
+    this.setting('huseyinfiliz.traderfeedback.badgeOnlyFirstPost', false);
+    
     this.loadStats();
+    
+    // Initial preview
+    setTimeout(() => {
+      this.validateAndPreview(this.setting('huseyinfiliz.traderfeedback.badgeCustomFormat')());
+    }, 0);
   }
 
   content() {
@@ -82,6 +100,7 @@ export default class TraderFeedbackSettingsPage extends ExtensionPage {
           <SettingsTab
             buildSettingComponent={this.buildSettingComponent.bind(this)}
             submitButton={this.submitButton.bind(this)}
+            page={this}
           />
         );
       case 'approvals':
@@ -303,5 +322,62 @@ export default class TraderFeedbackSettingsPage extends ExtensionPage {
     }).catch((error) => {
       app.alerts.show({ type: 'error' }, app.translator.trans('huseyinfiliz-traderfeedback.admin.reports.deleted_error'));
     });
+  }
+
+  // Badge format helper methods
+  insertVariable(variable: string) {
+    const textarea = this.customFormatTextarea;
+    if (!textarea) return;
+    
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    const text = this.setting('huseyinfiliz.traderfeedback.badgeCustomFormat')();
+    
+    const newText = text.substring(0, start) + variable + text.substring(end);
+    this.setting('huseyinfiliz.traderfeedback.badgeCustomFormat')(newText);
+    
+    // Move cursor after variable
+    setTimeout(() => {
+      textarea.selectionStart = textarea.selectionEnd = start + variable.length;
+      textarea.focus();
+    }, 0);
+    
+    this.validateAndPreview(newText);
+    m.redraw();
+  }
+
+  validateAndPreview(template: string) {
+    // 1. Validation
+    const validVars = ['{total}', '{score}', '{positive}', '{neutral}', '{negative}'];
+    const usedVars = template.match(/\{[^}]+\}/g) || [];
+    
+    const invalidVars = usedVars.filter((v: string) => !validVars.includes(v));
+    
+    if (invalidVars.length > 0) {
+      this.customFormatError = app.translator.trans('huseyinfiliz-traderfeedback.admin.settings.badge_custom_format_invalid', {
+        vars: invalidVars.join(', ')
+      });
+      this.customFormatPreview = app.translator.trans('huseyinfiliz-traderfeedback.admin.settings.badge_custom_format_invalid_preview');
+      return;
+    }
+    
+    // 2. Clear error
+    this.customFormatError = '';
+    
+    // 3. Generate preview with sample data
+    const sampleData = {
+      total: 8,
+      score: 88,
+      positive: 5,
+      neutral: 2,
+      negative: 1
+    };
+    
+    let preview = template;
+    Object.keys(sampleData).forEach((key: string) => {
+      preview = preview.replace(new RegExp(`\\{${key}\\}`, 'g'), (sampleData as any)[key].toString());
+    });
+    
+    this.customFormatPreview = preview;
   }
 }
