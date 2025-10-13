@@ -3,6 +3,7 @@ import app from 'flarum/forum/app';
 import DiscussionPage from 'flarum/forum/components/DiscussionPage';
 import Button from 'flarum/common/components/Button';
 import FeedbackModal from './modals/FeedbackModal';
+import SelectUserModal from './modals/SelectUserModal';
 
 export default function addDiscussionControls() {
   extend(DiscussionPage.prototype, 'sidebarItems', function (items) {
@@ -40,7 +41,7 @@ export default function addDiscussionControls() {
           onclick: () => {
             if (isDiscussionOwner) {
               // Konu sahibi ise: Tartışmadaki kullanıcıları göster
-              showUserSelectorModal(discussion);
+              app.modal.show(SelectUserModal, { discussion });
             } else {
               // Normal kullanıcı ise: Direkt konu sahibine feedback modal aç
               app.modal.show(FeedbackModal, {

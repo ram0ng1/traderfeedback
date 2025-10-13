@@ -164,6 +164,7 @@ return [
         ->default('huseyinfiliz.traderfeedback.showFeedbackInPostMenu', false)
         ->default('huseyinfiliz.traderfeedback.showFeedbackBelowReply', false)
         ->default('huseyinfiliz.traderfeedback.showFeedbackInPostFooter', false)
+		->default('huseyinfiliz.traderfeedback.footerOnlyFirstPost', false)
         ->default('huseyinfiliz.traderfeedback.feedbackActionTagFilter', '[]')
         ->default('huseyinfiliz.traderfeedback.feedbackOnlyWhenLocked', false)
 
@@ -188,6 +189,7 @@ return [
         ->serializeToForum('huseyinfiliz.traderfeedback.showFeedbackInPostMenu', 'huseyinfiliz.traderfeedback.showFeedbackInPostMenu', 'boolval')
         ->serializeToForum('huseyinfiliz.traderfeedback.showFeedbackBelowReply', 'huseyinfiliz.traderfeedback.showFeedbackBelowReply', 'boolval')
         ->serializeToForum('huseyinfiliz.traderfeedback.showFeedbackInPostFooter', 'huseyinfiliz.traderfeedback.showFeedbackInPostFooter', 'boolval')
+		->serializeToForum('huseyinfiliz.traderfeedback.footerOnlyFirstPost', 'huseyinfiliz.traderfeedback.footerOnlyFirstPost', 'boolval')
         ->serializeToForum('huseyinfiliz.traderfeedback.feedbackActionTagFilter', 'huseyinfiliz.traderfeedback.feedbackActionTagFilter')
         ->serializeToForum('huseyinfiliz.traderfeedback.feedbackOnlyWhenLocked', 'huseyinfiliz.traderfeedback.feedbackOnlyWhenLocked', 'boolval')
 

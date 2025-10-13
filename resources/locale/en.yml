@@ -121,8 +121,9 @@ huseyinfiliz-traderfeedback:
       give_feedback: "Give Feedback"
       select_user_title: "Select user to give feedback"
       select_user_label: "Select User"
-      no_users_found: "No other users found in this discussion to give feedback"
+      no_users_found: "No other users found in this discussion"
       continue: "Continue"
+      search_user_placeholder: "Search users..."
   
   # Admin translations
   admin:
@@ -172,6 +173,8 @@ huseyinfiliz-traderfeedback:
       show_feedback_below_reply_help: "Adds feedback button below reply and follow buttons in discussion sidebar"
       show_feedback_in_post_footer_label: "Show 'Give Feedback' button in post footer"
       show_feedback_in_post_footer_help: "Adds feedback button to the bottom-left of each post (won't show on own posts)"
+      footer_only_first_post_label: "Show footer button only in first post"
+      footer_only_first_post_help: "When enabled, the feedback button in post footer will only appear in the first post of discussions"
       feedback_action_tag_filter_label: "Show feedback buttons only in these tags"
       feedback_action_tag_filter_help: "Leave empty to show in all discussions. Select specific tags to limit button visibility to those tags only."
       feedback_only_when_locked_label: "Show only in locked discussions"

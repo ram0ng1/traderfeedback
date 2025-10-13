@@ -478,7 +478,7 @@
   }
   
   &-actionText {
-	padding-left: 4px;
+    padding-left: 4px;
     @media @phone {
       display: none;
     }
@@ -733,5 +733,67 @@
     &--inline {
       background: fade(@primary-color, 18%);
     }
+  }
+}
+
+
+
+// ------------------------------------------
+// SelectUserModal Styles (EKLENDİ)
+// ------------------------------------------
+.SelectUserModal {
+  .Modal-body {
+    padding: 0;
+  }
+
+  .Form-group {
+    padding: 20px 20px 0;
+    margin: 0;
+
+    input.FormControl {
+      width: 100%;
+      font-size: 14px;
+    }
+  }
+
+  .UserList {
+    max-height: 400px;
+    overflow-y: auto;
+    margin-top: 10px;
+  }
+
+  .UserListItem {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    cursor: pointer;
+    transition: background-color 0.15s;
+    border-top: 1px solid var(--control-bg);
+
+    &:hover,
+    &.active {
+      background-color: var(--control-bg);
+    }
+
+    &:first-child {
+      border-top: none;
+    }
+  }
+
+  .UserListItem-avatar {
+    margin-right: 12px;
+    flex-shrink: 0;
+  }
+
+  .UserListItem-info {
+    flex: 1;
+    font-weight: 500;
+  }
+
+  .UserList-empty {
+    padding: 40px 20px;
+    text-align: center;
+    color: var(--muted-color);
+    font-style: italic;
   }
 }

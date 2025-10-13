@@ -1,15 +1,15 @@
+// js/src/forum/addPostFooterControls.ts
 import { extend } from 'flarum/common/extend';
 import app from 'flarum/forum/app';
 import CommentPost from 'flarum/forum/components/CommentPost';
 import Button from 'flarum/common/components/Button';
 import FeedbackModal from './modals/FeedbackModal';
 
-export default function addPostFooterButton() {
-  // Post footer'a (sol alt) "Feedback Ver" butonu ekle
+export default function addPostFooterControls() {
   extend(CommentPost.prototype, 'footerItems', function (items) {
     const post = this.attrs.post;
     const user = post.user();
-    
+
     // Kendine feedback veremez
     if (!app.session.user || app.session.user.id() === user?.id()) {
       return;
@@ -17,6 +17,12 @@ export default function addPostFooterButton() {
 
     // Ayar kontrolü
     if (!app.forum.attribute('huseyinfiliz.traderfeedback.showFeedbackInPostFooter')) {
+      return;
+    }
+
+    // YENİ: Sadece ilk post kontrolü
+    const onlyFirstPost = app.forum.attribute('huseyinfiliz.traderfeedback.footerOnlyFirstPost');
+    if (onlyFirstPost && post.number() !== 1) {
       return;
     }
 
@@ -46,7 +52,7 @@ export default function addPostFooterButton() {
         },
         app.translator.trans('huseyinfiliz-traderfeedback.forum.post_actions.give_feedback_short')
       ),
-      -1  // Negatif değer ile en sola (like'ın soluna) yerleştir
+      -1
     );
   });
 }

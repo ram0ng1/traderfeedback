@@ -160,6 +160,16 @@ export default class SettingsTab extends Component {
                 help: app.translator.trans('huseyinfiliz-traderfeedback.admin.settings.show_feedback_in_post_footer_help'),
               })}
             </div>
+			  
+			{/* Post Footer Button */}
+            <div className="Form-group">
+              {buildSettingComponent({
+                type: 'boolean',
+                setting: 'huseyinfiliz.traderfeedback.footerOnlyFirstPost',
+                label: app.translator.trans('huseyinfiliz-traderfeedback.admin.settings.footer_only_first_post_label'),
+                help: app.translator.trans('huseyinfiliz-traderfeedback.admin.settings.footer_only_first_post_help'),
+              })}
+            </div>
 
             {/* Tag Filter for Actions */}
             <div className="Form-group">
