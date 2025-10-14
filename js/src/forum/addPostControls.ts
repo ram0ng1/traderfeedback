@@ -37,7 +37,7 @@ export default function addPostControls() {
           onclick: () => {
             app.modal.show(FeedbackModal, {
               user: user,
-              discussionUrl: window.location.href,
+              discussionId: post.discussion().id(),
               autoFillDiscussion: true,
             });
           },

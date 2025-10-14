@@ -45,7 +45,7 @@ export default function addPostFooterControls() {
           onclick: () => {
             app.modal.show(FeedbackModal, {
               user: user,
-              discussionUrl: window.location.href,
+              discussionId: post.discussion().id(),
               autoFillDiscussion: true,
             });
           },

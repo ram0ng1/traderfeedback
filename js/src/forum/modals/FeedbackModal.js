@@ -1,9 +1,3 @@
-/**
- * FeedbackModal.js DEĞİŞİKLİKLERİ
- * 
- * Dosya: js/src/forum/modals/FeedbackModal.js
- */
-
 import Modal from 'flarum/common/components/Modal';
 import Button from 'flarum/common/components/Button';
 import Select from 'flarum/common/components/Select';
@@ -24,15 +18,12 @@ export default class FeedbackModal extends Modal {
     this.discussionInput = Stream('');
     this.discussionId = null;
 
-    // Tartışmadan elde edilen kullanıcıları tutmak için
     this.discussionUsers = [];
 
-    // YENİ: Eğer autoFillDiscussion true ise ve discussionUrl varsa, otomatik doldur
-    if (this.attrs.autoFillDiscussion && this.attrs.discussionUrl) {
-      this.discussionInput(this.attrs.discussionUrl);
-      this.parseDiscussionId(this.attrs.discussionUrl);
-      // parse sonrası kullanıcıları yükle
-      this.loadDiscussionUsers();
+    // ✅ discussionId varsa otomatik doldur (URL yerine)
+    if (this.attrs.autoFillDiscussion && this.attrs.discussionId) {
+      this.discussionId = parseInt(this.attrs.discussionId);
+      this.discussionInput(this.discussionId.toString());
     }
   }
   
@@ -95,8 +86,6 @@ export default class FeedbackModal extends Modal {
             oninput: (e) => {
               this.discussionInput(e.target.value);
               this.parseDiscussionId(e.target.value);
-              // YENİ: parse Discussion ID'den sonra çağrılacak
-              this.loadDiscussionUsers();
             },
             placeholder: app.translator.trans('huseyinfiliz-traderfeedback.forum.form.discussion_placeholder'),
             required: requireDiscussion,
@@ -150,36 +139,6 @@ export default class FeedbackModal extends Modal {
     
     this.discussionId = null;
   }
-
-  /**
-   * YENİ METHOD
-   * Tartışmadaki kullanıcıları yükler (sadece konu sahibi için)
-   * parseDiscussionId sonrasında çağrılır.
-   */
-  loadDiscussionUsers() {
-    if (!this.discussionId) return;
-
-    // Discussion'ı yükle ve kullanıcıları al
-    app.store.find('discussions', this.discussionId, {
-      include: 'posts,posts.user'
-    }).then((discussion) => {
-      const posts = discussion.posts();
-      const uniqueUsers = new Map();
-      const currentUserId = app.session.user?.id();
-
-      if (posts) {
-        posts.forEach((post) => {
-          const postUser = post.user();
-          if (postUser && postUser.id() !== currentUserId) {
-            uniqueUsers.set(postUser.id(), postUser);
-          }
-        });
-      }
-
-      this.discussionUsers = Array.from(uniqueUsers.values());
-      m.redraw();
-    });
-  }
   
   onsubmit(e) {
     e.preventDefault();
@@ -209,7 +168,6 @@ export default class FeedbackModal extends Modal {
       return;
     }
     
-    // Allow negative kontrolü - form submit edilirken ekstra kontrol
     const allowNegative = app.forum.attribute('huseyinfiliz.traderfeedback.allowNegative') !== false;
     if (!allowNegative && this.type() === 'negative') {
       app.alerts.show({ type: 'error' }, app.translator.trans('huseyinfiliz-traderfeedback.api.validation.negative_not_allowed'));
@@ -218,7 +176,7 @@ export default class FeedbackModal extends Modal {
     
     this.isSubmitting = true;
     this.loading = true;
-    m.redraw(); // UI'ı hemen güncelle
+    m.redraw();
     
     const data = {
       to_user_id: this.user.id(),

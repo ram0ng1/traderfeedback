@@ -1,9 +1,9 @@
-// js/src/forum/modals/SelectUserModal.ts
 import Modal from 'flarum/common/components/Modal';
 import Button from 'flarum/common/components/Button';
 import username from 'flarum/common/helpers/username';
 import avatar from 'flarum/common/helpers/avatar';
 import KeyboardNavigatable from 'flarum/common/utils/KeyboardNavigatable';
+import LoadingIndicator from 'flarum/common/components/LoadingIndicator';
 import FeedbackModal from './FeedbackModal';
 import app from 'flarum/forum/app';
 
@@ -12,10 +12,14 @@ export default class SelectUserModal extends Modal {
     super.oninit(vnode);
     
     this.discussion = this.attrs.discussion;
-    this.users = this.extractUsersFromDiscussion();
+    this.users = [];
+    this.loading = true;
     this.filter = '';
     this.selectedIndex = 0;
     this.navigator = new KeyboardNavigatable();
+    
+    // ✅ Her zaman ilk 5 kullanıcı limiti
+    this.displayLimit = 5;
     
     this.navigator
       .onUp(() => { 
@@ -23,42 +27,91 @@ export default class SelectUserModal extends Modal {
         m.redraw();
       })
       .onDown(() => { 
-        this.selectedIndex = Math.min(this.filteredUsers().length - 1, this.selectedIndex + 1);
+        this.selectedIndex = Math.min(this.displayUsers().length - 1, this.selectedIndex + 1);
         m.redraw();
       })
-      .onSelect(() => this.selectUser(this.filteredUsers()[this.selectedIndex]));
+      .onSelect(() => this.selectUser(this.displayUsers()[this.selectedIndex]));
+
+    this.loadParticipants();
   }
 
-  extractUsersFromDiscussion() {
-    const posts = this.discussion.posts();
-    const uniqueUsers = new Map();
-    const currentUserId = app.session.user?.id();
+  async loadParticipants() {
+    try {
+      const response = await app.request({
+        method: 'GET',
+        url: app.forum.attribute('apiUrl') + `/trader/discussions/${this.discussion.id()}/participants`,
+      });
 
-    posts?.forEach(post => {
-      const user = post.user();
-      if (user && user.id() !== currentUserId) {
-        uniqueUsers.set(user.id(), user);
+      const users = [];
+      
+      if (response.data && Array.isArray(response.data)) {
+        response.data.forEach((userData) => {
+          let user = app.store.getById('users', userData.id);
+          if (!user) {
+            user = app.store.pushPayload({ data: userData });
+          }
+          users.push(user);
+        });
       }
-    });
 
-    return Array.from(uniqueUsers.values());
+      this.users = users;
+      this.loading = false;
+
+      if (users.length === 1) {
+        this.hide();
+        setTimeout(() => {
+          app.modal.show(FeedbackModal, {
+            user: users[0],
+            discussionUrl: window.location.href,
+            autoFillDiscussion: true,
+          });
+        }, 200);
+        return;
+      }
+
+      if (users.length === 0) {
+        this.hide();
+        app.alerts.show({ 
+          type: 'error' 
+        }, app.translator.trans('huseyinfiliz-traderfeedback.forum.discussion_actions.no_users_found'));
+        return;
+      }
+
+      m.redraw();
+
+    } catch (error) {
+      console.error('Error loading participants:', error);
+      this.loading = false;
+      this.hide();
+      app.alerts.show({ 
+        type: 'error' 
+      }, 'Could not load participants');
+    }
   }
 
   filteredUsers() {
     if (!this.filter) return this.users;
     const query = this.filter.toLowerCase();
-    return this.users.filter(u => u.username().toLowerCase().includes(query));
+    return this.users.filter(u => {
+      const userName = u.username ? u.username() : '';
+      const displayName = u.displayName ? u.displayName() : '';
+      return userName.toLowerCase().includes(query) || displayName.toLowerCase().includes(query);
+    });
+  }
+
+  // ✅ Her zaman ilk 5'i göster
+  displayUsers() {
+    const filtered = this.filteredUsers();
+    return filtered.slice(0, this.displayLimit);
   }
 
   selectUser(user) {
-    // DÜZELTME: Önce modal'ı kapat, sonra yeni modal'ı aç
     this.hide();
     
-    // Modal animasyonunun bitmesini bekle
     setTimeout(() => {
       app.modal.show(FeedbackModal, {
         user,
-        discussionUrl: window.location.href,
+        discussionId: this.discussion.id(), // ✅ URL yerine ID
         autoFillDiscussion: true
       });
     }, 200);
@@ -73,7 +126,17 @@ export default class SelectUserModal extends Modal {
   }
 
   content() {
-    const users = this.filteredUsers();
+    if (this.loading) {
+      return m('.Modal-body', [
+        m('.LoadingContainer', {
+          style: 'text-align: center; padding: 50px;'
+        }, LoadingIndicator.component({ size: 'large' }))
+      ]);
+    }
+
+    const filteredUsers = this.filteredUsers();
+    const displayUsers = this.displayUsers();
+    const hasMoreResults = filteredUsers.length > this.displayLimit;
     
     return m('.Modal-body', [
       m('.Form-group', [
@@ -87,10 +150,23 @@ export default class SelectUserModal extends Modal {
           },
           onkeydown: this.navigator.navigate.bind(this.navigator),
           oncreate: vnode => vnode.dom.focus()
-        })
+        }),
+        // ✅ Bilgilendirme mesajı - her zaman
+        hasMoreResults && m('.helpText', {
+          style: 'margin-top: 8px; color: #888; font-size: 12px;'
+        }, this.filter 
+          ? (app.translator.trans(
+              'huseyinfiliz-traderfeedback.forum.discussion_actions.showing_limited_results',
+              { shown: this.displayLimit, total: filteredUsers.length }
+            ) || `Showing first ${this.displayLimit} of ${filteredUsers.length} matching users. Refine your search.`)
+          : (app.translator.trans(
+              'huseyinfiliz-traderfeedback.forum.discussion_actions.showing_limited_users',
+              { shown: this.displayLimit, total: filteredUsers.length }
+            ) || `Showing first ${this.displayLimit} of ${filteredUsers.length} users. Use search to find others.`)
+        )
       ]),
-      m('.UserList', users.length ? 
-        users.map((user, index) => 
+      m('.UserList', displayUsers.length ? 
+        displayUsers.map((user, index) => 
           m('.UserListItem', {
             className: index === this.selectedIndex ? 'active' : '',
             onclick: () => this.selectUser(user)
@@ -99,7 +175,11 @@ export default class SelectUserModal extends Modal {
             m('.UserListItem-info', username(user))
           ])
         ) : 
-        m('.UserList-empty', app.translator.trans('huseyinfiliz-traderfeedback.forum.discussion_actions.no_users_found'))
+        m('.UserList-empty', 
+          this.filter 
+            ? (app.translator.trans('huseyinfiliz-traderfeedback.forum.discussion_actions.no_matching_users') || 'No matching users found')
+            : app.translator.trans('huseyinfiliz-traderfeedback.forum.discussion_actions.no_users_found')
+        )
       )
     ]);
   }
