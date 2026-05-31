@@ -20,16 +20,7 @@ class FeedbackReport extends AbstractModel
 {
     protected $table = 'tfb_reports';
 
-    // ✅ Timestamps enabled
     public $timestamps = true;
-
-    protected $fillable = [
-        'feedback_id',
-        'user_id',  // ✅ user_id (migration'daki gibi)
-        'reason',
-        'resolved',
-        'resolved_by_id',
-    ];
 
     protected $casts = [
         'resolved' => 'boolean',

@@ -56,9 +56,13 @@ export default class ReportModal extends Modal {
     
     app.request({
       method: 'POST',
-      url: app.forum.attribute('apiUrl') + '/trader/feedback/' + this.feedback.id() + '/report',
-      data: {
-        reason: this.reason
+      url: app.forum.attribute('apiUrl') + '/trader-feedbacks/' + this.feedback.id() + '/report',
+      body: {
+        data: {
+          attributes: {
+            reason: this.reason
+          }
+        }
       }
     })
     .then(() => {

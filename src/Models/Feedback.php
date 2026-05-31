@@ -36,8 +36,6 @@ class Feedback extends AbstractModel
 
     public $timestamps = true;
 
-    protected $dates = ['created_at', 'updated_at', 'deleted_at'];
-
     protected $casts = [
         'from_user_id' => 'integer',
         'to_user_id' => 'integer',
@@ -47,17 +45,6 @@ class Feedback extends AbstractModel
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
         'deleted_at' => 'datetime',
-    ];
-
-    protected $fillable = [
-        'from_user_id',
-        'to_user_id',
-        'type',
-        'role',
-        'comment',
-        'discussion_id',
-        'is_approved',
-        'approved_by_id'
     ];
 
     /**

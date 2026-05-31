@@ -1,43 +1,43 @@
 <?php
+
 namespace HuseyinFiliz\TraderFeedback\Notifications;
 
+use Flarum\Database\AbstractModel;
 use Flarum\Notification\Blueprint\BlueprintInterface;
 use Flarum\User\User;
 use HuseyinFiliz\TraderFeedback\Models\Feedback;
 
 class FeedbackApprovedBlueprint implements BlueprintInterface
 {
-    public $feedback;
-
-    public function __construct(Feedback $feedback)
-    {
-        $this->feedback = $feedback;
+    public function __construct(
+        public Feedback $feedback,
+    ) {
     }
 
-    public function getSubject()
+    public function getSubject(): ?AbstractModel
     {
         return $this->feedback;
     }
 
-    public function getFromUser()
+    public function getFromUser(): ?User
     {
         return User::find($this->feedback->to_user_id);
     }
 
-    public function getData()
+    public function getData(): mixed
     {
         return [
             'feedbackId' => $this->feedback->id,
-            'feedbackType' => $this->feedback->type
+            'feedbackType' => $this->feedback->type,
         ];
     }
 
-    public static function getType()
+    public static function getType(): string
     {
         return 'feedbackApproved';
     }
 
-    public static function getSubjectModel()
+    public static function getSubjectModel(): string
     {
         return Feedback::class;
     }

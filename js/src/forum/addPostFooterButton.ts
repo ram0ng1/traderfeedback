@@ -1,12 +1,11 @@
 // js/src/forum/addPostFooterControls.ts
 import { extend } from 'flarum/common/extend';
 import app from 'flarum/forum/app';
-import CommentPost from 'flarum/forum/components/CommentPost';
 import Button from 'flarum/common/components/Button';
 import FeedbackModal from './modals/FeedbackModal';
 
 export default function addPostFooterControls() {
-  extend(CommentPost.prototype, 'footerItems', function (items) {
+  extend('flarum/forum/components/CommentPost', 'footerItems', function (items) {
     const post = this.attrs.post;
     const user = post.user();
 

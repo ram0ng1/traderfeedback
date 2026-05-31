@@ -61,8 +61,8 @@
 }
 
 .StatsCard {
-  background: @body-bg;
-  border: 1px solid @control-bg;
+  background: var(--body-bg);
+  border: 1px solid var(--control-bg);
   border-radius: @card-radius;
   padding: 16px;
   display: flex;
@@ -127,7 +127,7 @@
   
   &-label {
     font-size: 11px;
-    color: @muted-color;
+    color: var(--muted-color);
     text-transform: uppercase;
     letter-spacing: 0.5px;
     font-weight: 600;
@@ -226,7 +226,7 @@
   display: flex;
   gap: 8px;
   margin-bottom: 20px;
-  background: fade(@control-bg, 50%);
+  background: color-mix(in srgb, var(--control-bg) 50%, transparent);
   padding: 4px;
   border-radius: 10px;
   
@@ -245,7 +245,7 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  color: @muted-color;
+  color: var(--muted-color);
   font-size: 13px;
   font-weight: 600;
   transition: all @transition-speed @transition-smooth;
@@ -259,8 +259,8 @@
   }
   
   &:hover {
-    color: @text-color;
-    background: fade(@body-bg, 50%);
+    color: var(--text-color);
+    background: color-mix(in srgb, var(--body-bg) 50%, transparent);
   }
   
   &:focus-visible {
@@ -270,7 +270,7 @@
   
   &.active {
     color: @primary-color;
-    background: @body-bg;
+    background: var(--body-bg);
     box-shadow: @shadow-sm;
     font-weight: 700;
   }
@@ -304,8 +304,8 @@
 // CONTENT AREA
 // ==========================================
 .TraderFeedbackPage-content {
-  background: @body-bg;
-  border: 1px solid @control-bg;
+  background: var(--body-bg);
+  border: 1px solid var(--control-bg);
   border-radius: @card-radius;
   padding: 20px;
   min-height: 400px;
@@ -318,7 +318,7 @@
 .EmptyState {
   text-align: center;
   padding: 40px 20px;
-  color: @muted-color;
+  color: var(--muted-color);
   
   i {
     font-size: 48px;
@@ -329,7 +329,7 @@
   h3 {
     font-size: 18px;
     font-weight: 600;
-    color: @text-color;
+    color: var(--text-color);
     margin-bottom: 8px;
   }
   
@@ -343,8 +343,8 @@
 // ==========================================
 .SettingsSection {
   margin-bottom: 32px;
-  background: fade(@control-bg, 25%);
-  border: 1px solid @control-bg;
+  background: color-mix(in srgb, var(--control-bg) 25%, transparent);
+  border: 1px solid var(--control-bg);
   border-radius: @card-radius;
   padding: 20px;
   
@@ -355,10 +355,10 @@
   h3 {
     font-size: 16px;
     font-weight: 700;
-    color: @text-color;
+    color: var(--text-color);
     margin: 0 0 16px;
     padding-bottom: 12px;
-    border-bottom: 1px solid @control-bg;
+    border-bottom: 1px solid var(--control-bg);
     display: flex;
     align-items: center;
     gap: 10px;
@@ -388,18 +388,18 @@
     label {
       display: block;
       font-weight: 600;
-      color: @text-color;
+      color: var(--text-color);
       margin-bottom: 8px;
       font-size: 14px;
     }
     
     .helpText {
       font-size: 12px;
-      color: @muted-color;
+      color: var(--muted-color);
       margin-top: 6px;
       line-height: 1.5;
       padding-left: 10px;
-      border-left: 2px solid @control-bg;
+      border-left: 2px solid var(--control-bg);
     }
     
     input[type="text"],
@@ -408,12 +408,12 @@
     textarea {
       width: 100%;
       max-width: 500px;
-      border: 1px solid @control-bg;
+      border: 1px solid var(--control-bg);
       border-radius: 8px;
       font-size: 14px;
       font-family: inherit;
       transition: border-color @transition-speed ease;
-      background: @body-bg;
+      background: var(--body-bg);
       
       &:focus {
         border-color: @primary-color;
@@ -436,7 +436,7 @@
       transition: background @transition-speed ease;
       
       &:hover {
-        background: fade(@control-bg, 30%);
+        background: color-mix(in srgb, var(--control-bg) 30%, transparent);
       }
       
       input[type="checkbox"] {
@@ -459,8 +459,8 @@
 }
 
 .FeedbackCard {
-  background: @body-bg;
-  border: 1px solid @control-bg;
+  background: var(--body-bg);
+  border: 1px solid var(--control-bg);
   border-radius: @card-radius;
   padding: 16px;
   transition: all @transition-speed @transition-smooth;
@@ -498,7 +498,7 @@
     align-items: flex-start;
     margin-bottom: 12px;
     padding-bottom: 12px;
-    border-bottom: 1px solid @control-bg;
+    border-bottom: 1px solid var(--control-bg);
     gap: 12px;
     flex-wrap: wrap;
   }
@@ -521,7 +521,7 @@
     align-items: center;
     gap: 8px;
     padding: 6px 10px;
-    background: fade(@control-bg, 30%);
+    background: color-mix(in srgb, var(--control-bg) 30%, transparent);
     border-radius: 8px;
     min-width: 0;
     
@@ -546,7 +546,7 @@
   }
   
   &-arrow {
-    color: @muted-color;
+    color: var(--muted-color);
     font-size: 16px;
     flex-shrink: 0;
     
@@ -567,7 +567,7 @@
   }
   
   &-comment {
-    background: fade(@control-bg, 25%);
+    background: color-mix(in srgb, var(--control-bg) 25%, transparent);
     padding: 12px;
     border-radius: 8px;
     margin-bottom: 12px;
@@ -658,12 +658,12 @@
 .FeedbackCard-dateBadge,
 .ReportCard-dateBadge {
   font-size: 12px;
-  color: @muted-color;
+  color: var(--muted-color);
   display: inline-flex;
   align-items: center;
   gap: 6px;
   padding: 6px 10px;
-  background: fade(@control-bg, 30%);
+  background: color-mix(in srgb, var(--control-bg) 30%, transparent);
   border-radius: 12px;
   
   i {
@@ -675,7 +675,7 @@
 // REPORT CARDS (Reports Page)
 // ==========================================
 .ReportCard {
-  background: @body-bg;
+  background: var(--body-bg);
   border: 1px solid @danger-color;
   border-left: 3px solid @danger-color;
   border-radius: @card-radius;
@@ -693,7 +693,7 @@
     align-items: center;
     margin-bottom: 12px;
     padding-bottom: 12px;
-    border-bottom: 1px solid @control-bg;
+    border-bottom: 1px solid var(--control-bg);
     gap: 12px;
     flex-wrap: wrap;
   }
@@ -703,7 +703,7 @@
     align-items: center;
     gap: 8px;
     padding: 6px 10px;
-    background: fade(@control-bg, 30%);
+    background: color-mix(in srgb, var(--control-bg) 30%, transparent);
     border-radius: 8px;
     flex: 1;
     min-width: 0;
@@ -748,7 +748,7 @@
   }
   
   &-feedback {
-    background: fade(@control-bg, 25%);
+    background: color-mix(in srgb, var(--control-bg) 25%, transparent);
     padding: 12px;
     border-radius: @card-radius-sm;
     margin-bottom: 12px;
@@ -793,14 +793,14 @@
       }
       
       i {
-        color: @muted-color;
+        color: var(--muted-color);
         font-size: 12px;
         flex-shrink: 0;
       }
     }
     
     &Comment {
-      background: @body-bg;
+      background: var(--body-bg);
       padding: 10px 12px;
       border-radius: 6px;
       border-left: 2px solid @primary-color;
@@ -838,7 +838,7 @@
   align-items: center;
   justify-content: center;
   padding: 60px 20px;
-  color: @muted-color;
+  color: var(--muted-color);
   
   .LoadingIndicator {
     margin-bottom: 16px;
@@ -912,8 +912,8 @@ button {
 // ==========================================
 
 .SettingsSection--badge {
-  background: fade(@control-bg, 15%);
-  border: 2px solid @control-bg;
+  background: color-mix(in srgb, var(--control-bg) 15%, transparent);
+  border: 2px solid var(--control-bg);
 }
 
 // Custom Format Editor
@@ -926,10 +926,10 @@ button {
     
     .Button {
       padding: 6px 12px;
-      border: 1px solid @control-bg;
+      border: 1px solid var(--control-bg);
       border-radius: 4px;
-      background: @control-bg;
-      color: @text-color;
+      background: var(--control-bg);
+      color: var(--text-color);
       cursor: pointer;
       font-size: 12px;
       transition: all 0.2s;
@@ -938,7 +938,7 @@ button {
       gap: 5px;
       
       &:hover {
-        background: darken(@control-bg, 5%);
+        background: color-mix(in srgb, var(--control-bg), #000 5%);
         border-color: @primary-color;
         color: @primary-color;
       }
@@ -976,14 +976,14 @@ button {
   .TraderFeedback-preview {
     margin-top: 15px;
     padding: 15px;
-    background: @body-bg;
-    border: 1px solid @control-bg;
+    background: var(--body-bg);
+    border: 1px solid var(--control-bg);
     border-radius: 8px;
     
     &-label {
       font-weight: 600;
       margin-bottom: 12px;
-      color: @muted-color;
+      color: var(--muted-color);
       font-size: 11px;
       text-transform: uppercase;
       letter-spacing: 0.5px;
@@ -1001,7 +1001,7 @@ button {
       align-items: center;
       margin-bottom: 10px;
       padding: 10px;
-      background: fade(@control-bg, 30%);
+      background: color-mix(in srgb, var(--control-bg) 30%, transparent);
       border-radius: 6px;
       
       .TraderBadge {
@@ -1011,7 +1011,7 @@ button {
     
     &-stats {
       font-size: 11px;
-      color: @muted-more-color;
+      color: var(--muted-more-color);
       font-style: italic;
     }
   }
@@ -1037,7 +1037,7 @@ button {
   
   &-prefix {
     font-weight: 600;
-    color: @text-color;
+    color: var(--text-color);
     margin-right: 2px;
   }
   
@@ -1057,8 +1057,8 @@ button {
   
   .BadgeExample {
     padding: 12px;
-    background: @control-bg;
-    border: 2px solid @control-bg;
+    background: var(--control-bg);
+    border: 2px solid var(--control-bg);
     border-radius: 8px;
     transition: all 0.2s;
     
@@ -1074,7 +1074,7 @@ button {
     
     &-label {
       font-size: 11px;
-      color: @muted-color;
+      color: var(--muted-color);
       margin-bottom: 8px;
       font-weight: 600;
       text-transform: uppercase;
@@ -1119,8 +1119,8 @@ button {
 // ==========================================
 
 .SettingsSection--badge {
-  background: fade(@control-bg, 15%);
-  border: 2px solid @control-bg;
+  background: color-mix(in srgb, var(--control-bg) 15%, transparent);
+  border: 2px solid var(--control-bg);
 }
 
 // Custom Format Editor
@@ -1133,10 +1133,10 @@ button {
     
     .Button {
       padding: 6px 12px;
-      border: 1px solid @control-bg;
+      border: 1px solid var(--control-bg);
       border-radius: 4px;
-      background: @control-bg;
-      color: @text-color;
+      background: var(--control-bg);
+      color: var(--text-color);
       cursor: pointer;
       font-size: 12px;
       transition: all 0.2s;
@@ -1145,7 +1145,7 @@ button {
       gap: 5px;
       
       &:hover {
-        background: darken(@control-bg, 5%);
+        background: color-mix(in srgb, var(--control-bg), #000 5%);
         border-color: @primary-color;
         color: @primary-color;
       }
@@ -1183,14 +1183,14 @@ button {
   .TraderFeedback-preview {
     margin-top: 15px;
     padding: 15px;
-    background: @body-bg;
-    border: 1px solid @control-bg;
+    background: var(--body-bg);
+    border: 1px solid var(--control-bg);
     border-radius: 8px;
     
     &-label {
       font-weight: 600;
       margin-bottom: 12px;
-      color: @muted-color;
+      color: var(--muted-color);
       font-size: 11px;
       text-transform: uppercase;
       letter-spacing: 0.5px;
@@ -1208,7 +1208,7 @@ button {
       align-items: center;
       margin-bottom: 10px;
       padding: 10px;
-      background: fade(@control-bg, 30%);
+      background: color-mix(in srgb, var(--control-bg) 30%, transparent);
       border-radius: 6px;
       
       .TraderBadge {
@@ -1218,7 +1218,7 @@ button {
     
     &-stats {
       font-size: 11px;
-      color: @muted-more-color;
+      color: var(--muted-more-color);
       font-style: italic;
     }
   }
@@ -1244,7 +1244,7 @@ button {
   
   &-prefix {
     font-weight: 600;
-    color: @text-color;
+    color: var(--text-color);
     margin-right: 2px;
   }
   
@@ -1264,8 +1264,8 @@ button {
   
   .BadgeExample {
     padding: 12px;
-    background: @control-bg;
-    border: 2px solid @control-bg;
+    background: var(--control-bg);
+    border: 2px solid var(--control-bg);
     border-radius: 8px;
     transition: all 0.2s;
     
@@ -1281,7 +1281,7 @@ button {
     
     &-label {
       font-size: 11px;
-      color: @muted-color;
+      color: var(--muted-color);
       margin-bottom: 8px;
       font-weight: 600;
       text-transform: uppercase;
@@ -1318,5 +1318,215 @@ button {
   
   .BadgeExamples {
     grid-template-columns: 1fr !important;
+  }
+}
+// ====================================================================
+// Community Reviews — admin management (products + categories & fields)
+// ====================================================================
+.ReviewsManageTab {
+  h3 {
+    margin: 0 0 12px;
+    font-size: 15px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .ReviewsManage-products {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 1px solid var(--control-bg);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 8px;
+
+    thead th {
+      text-align: left;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      color: var(--muted-color);
+      background: color-mix(in srgb, var(--control-bg) 45%, transparent);
+      padding: 8px 12px;
+    }
+
+    tbody td {
+      padding: 6px 12px;
+      border-top: 1px solid color-mix(in srgb, var(--control-bg) 60%, transparent);
+      vertical-align: middle;
+    }
+
+    tbody tr:hover {
+      background: color-mix(in srgb, var(--control-bg) 25%, transparent);
+    }
+
+    .FormControl--small {
+      height: 32px;
+      padding: 4px 8px;
+      font-size: 13px;
+    }
+  }
+
+  .ReviewsManage-rowActions {
+    display: flex;
+    gap: 6px;
+    justify-content: flex-end;
+    white-space: nowrap;
+  }
+}
+
+.ReviewsManage-catsHeader {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin: 28px 0 16px;
+  padding-top: 20px;
+  border-top: 2px solid var(--control-bg);
+
+  h3 { margin: 0; }
+
+  .ReviewsManage-addCat {
+    margin-left: auto;
+    display: flex;
+    gap: 8px;
+
+    .FormControl { width: 220px; max-width: 50vw; }
+  }
+}
+
+.ReviewsManage-catGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.ReviewsManage-cat {
+  border: 1px solid var(--control-bg);
+  border-radius: 10px;
+  background: var(--body-bg);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.ReviewsManage-catHead {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: color-mix(in srgb, var(--primary-color) 12%, transparent);
+  border-bottom: 1px solid var(--control-bg);
+
+  .ReviewsManage-catNameInput {
+    font-weight: 700;
+    flex: 1 1 auto;
+    min-width: 0;
+    border: 1px solid transparent;
+    background: transparent;
+    border-radius: 6px;
+    padding: 3px 8px;
+    color: inherit;
+    font-size: inherit;
+    transition: background 0.15s, border-color 0.15s;
+
+    &:hover { background: color-mix(in srgb, var(--body-bg) 55%, transparent); }
+
+    &:focus {
+      outline: none;
+      background: var(--body-bg);
+      border-color: var(--primary-color);
+    }
+  }
+
+  .ReviewsManage-count {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted-color);
+    background: color-mix(in srgb, var(--control-bg) 60%, transparent);
+    border-radius: 20px;
+    padding: 2px 10px;
+  }
+
+  .ReviewsManage-catDel {
+    color: var(--muted-color);
+    &:hover { color: #e74c3c; }
+  }
+}
+
+.ReviewsManage-fields {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 12px;
+  flex: 1 1 auto;
+  align-content: flex-start;
+  min-height: 44px;
+}
+
+.ReviewsManage-noFields {
+  color: var(--muted-color);
+  font-size: 12px;
+  font-style: italic;
+}
+
+.ReviewsManage-field {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: color-mix(in srgb, var(--control-bg) 55%, transparent);
+  border-radius: 6px;
+  padding: 3px 4px 3px 6px;
+  font-size: 13px;
+  line-height: 1.4;
+
+  .ReviewsManage-fieldNameInput {
+    border: 1px solid transparent;
+    background: transparent;
+    border-radius: 4px;
+    padding: 2px 6px;
+    color: inherit;
+    font-size: 13px;
+    width: 110px;
+    transition: background 0.15s, border-color 0.15s, width 0.15s;
+
+    &:hover { background: color-mix(in srgb, var(--body-bg) 60%, transparent); }
+
+    &:focus {
+      outline: none;
+      width: 150px;
+      background: var(--body-bg);
+      border-color: var(--primary-color);
+    }
+  }
+
+  .ReviewsManage-fieldDel {
+    cursor: pointer;
+    color: var(--muted-color);
+    width: 18px;
+    height: 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+
+    &:hover { color: #fff; background: #e74c3c; }
+  }
+}
+
+.ReviewsManage-addField {
+  display: flex;
+  gap: 6px;
+  padding: 10px 12px;
+  border-top: 1px dashed var(--control-bg);
+
+  .FormControl--small {
+    flex: 1 1 auto;
+    height: 32px;
+    padding: 4px 8px;
+    font-size: 13px;
   }
 }

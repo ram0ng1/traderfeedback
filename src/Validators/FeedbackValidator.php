@@ -3,13 +3,24 @@
 namespace HuseyinFiliz\TraderFeedback\Validators;
 
 use Flarum\Foundation\AbstractValidator;
+use Flarum\Locale\TranslatorInterface;
+use Flarum\Settings\SettingsRepositoryInterface;
+use Illuminate\Validation\Factory;
 
 class FeedbackValidator extends AbstractValidator
 {
+    public function __construct(
+        Factory $validator,
+        TranslatorInterface $translator,
+        protected SettingsRepositoryInterface $settings,
+    ) {
+        parent::__construct($validator, $translator);
+    }
+
     /**
      * {@inheritdoc}
      */
-    protected $rules = [
+    protected array $rules = [
         'to_user_id' => [
             'required',
             'integer',
@@ -41,24 +52,19 @@ class FeedbackValidator extends AbstractValidator
     /**
      * {@inheritdoc}
      */
-    protected function getRules()
+    protected function getRules(): array
     {
         $rules = $this->rules;
-        
-        // Settings'i app container'dan alalım
-        $settings = app('flarum.settings');
-        
-        if ($settings) {
-            $minLength = (int) $settings->get('huseyinfiliz.traderfeedback.minLength', 10);
-            $maxLength = (int) $settings->get('huseyinfiliz.traderfeedback.maxLength', 1000);
-            
-            $rules['comment'] = [
-                'required',
-                'string',
-                'min:' . $minLength,
-                'max:' . $maxLength
-            ];
-        }
+
+        $minLength = (int) $this->settings->get('huseyinfiliz.traderfeedback.minLength', 10);
+        $maxLength = (int) $this->settings->get('huseyinfiliz.traderfeedback.maxLength', 1000);
+
+        $rules['comment'] = [
+            'required',
+            'string',
+            'min:' . $minLength,
+            'max:' . $maxLength,
+        ];
 
         return $rules;
     }
@@ -66,7 +72,7 @@ class FeedbackValidator extends AbstractValidator
     /**
      * {@inheritdoc}
      */
-    protected function getMessages()
+    protected function getMessages(): array
     {
         return [
             'to_user_id.required' => 'User ID is required.',

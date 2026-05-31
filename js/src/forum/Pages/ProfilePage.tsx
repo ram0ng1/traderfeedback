@@ -78,12 +78,10 @@ export default class ProfilePage extends UserPage {
 
         app.request({
             method: 'GET',
-            url: app.forum.attribute('apiUrl') + '/trader/feedback',
+            url: app.forum.attribute('apiUrl') + '/trader-feedbacks',
             params: {
-                filter: {
-                    user: this.user.id(),
-                    type: this.filter === 'all' ? null : this.filter,
-                },
+                forUser: this.user.id(),
+                byType: this.filter === 'all' ? null : this.filter,
             },
         })
             .then((response) => {
@@ -168,7 +166,7 @@ export default class ProfilePage extends UserPage {
 
         app.request({
             method: 'POST',
-            url: app.forum.attribute('apiUrl') + '/trader/feedback/' + feedback.id + '/report',
+            url: app.forum.attribute('apiUrl') + '/trader-feedbacks/' + feedback.id + '/report',
             body: {
                 data: {
                     attributes: {
@@ -205,7 +203,7 @@ export default class ProfilePage extends UserPage {
 
         app.request({
             method: 'DELETE',
-            url: app.forum.attribute('apiUrl') + '/trader/feedback/' + feedback.id,
+            url: app.forum.attribute('apiUrl') + '/trader-feedbacks/' + feedback.id,
         })
             .then(() => {
                 this.loading = false;

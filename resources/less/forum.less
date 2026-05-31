@@ -11,7 +11,7 @@
       margin: 0 0 20px;
       font-size: 24px;
       font-weight: normal;
-      color: @heading-color;
+      color: var(--heading-color);
     }
   }
   
@@ -28,7 +28,7 @@
   
   &-stat {
     flex: 1;
-    background: @control-bg;
+    background: var(--control-bg);
     border-radius: 4px;
     padding: 15px;
     text-align: center;
@@ -43,7 +43,7 @@
       font-size: 24px;
       font-weight: bold;
       margin-bottom: 5px;
-      color: @text-color;
+      color: var(--text-color);
       
       @media @phone {
         font-size: 20px;
@@ -53,7 +53,7 @@
     &-label {
       font-size: 11px;
       text-transform: uppercase;
-      color: @muted-color;
+      color: var(--muted-color);
       letter-spacing: 0.02em;
       
       @media @phone {
@@ -155,8 +155,8 @@
 // Feedback Items
 // ============================================
 .FeedbackItem {
-  background: @body-bg;
-  border: 1px solid @control-bg;
+  background: var(--body-bg);
+  border: 1px solid var(--control-bg);
   border-radius: 4px;
   padding: 15px;
   transition: box-shadow 0.2s ease;
@@ -213,7 +213,7 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    color: @muted-color;
+    color: var(--muted-color);
     font-size: 13px;
     flex-shrink: 0;
     
@@ -263,7 +263,7 @@
   }
   
   &-username {
-    color: @text-color;
+    color: var(--text-color);
     font-weight: 600;
     font-size: 14px;
     overflow: hidden;
@@ -349,8 +349,8 @@
   }
   
   &-role {
-    background: @control-bg;
-    color: @muted-color;
+    background: var(--control-bg);
+    color: var(--muted-color);
   }
   
   // Date
@@ -385,13 +385,13 @@
     
     &--deleted,
     &--locked {
-      color: @muted-color;
+      color: var(--muted-color);
       opacity: 0.6;
       cursor: not-allowed;
       
       &:hover {
         text-decoration: none;
-        color: @muted-color;
+        color: var(--muted-color);
       }
     }
   }
@@ -412,10 +412,10 @@
   
   // Comment section
   &-comment {
-    color: @text-color;
+    color: var(--text-color);
     line-height: 1.6;
     padding: 12px;
-    background: @control-bg;
+    background: var(--control-bg);
     border-radius: 4px;
     word-wrap: break-word;
     white-space: pre-wrap;
@@ -431,7 +431,7 @@
   &-actions {
     margin-top: 10px;
     padding-top: 10px;
-    border-top: 1px solid @control-bg;
+    border-top: 1px solid var(--control-bg);
     display: flex;
     gap: 12px;
     flex-wrap: wrap;
@@ -445,7 +445,7 @@
     .Button--link {
       padding: 4px 8px;
       font-size: 13px;
-      color: @muted-color;
+      color: var(--muted-color);
       transition: all 0.2s ease;
       display: inline-flex;
       align-items: center;
@@ -458,8 +458,8 @@
       }
       
       &:hover {
-        color: @text-color;
-        background: @control-bg;
+        color: var(--text-color);
+        background: var(--control-bg);
       }
       
       i {
@@ -523,13 +523,13 @@
       display: block;
       margin-bottom: 5px;
       font-weight: 600;
-      color: @text-color;
+      color: var(--text-color);
     }
     
     textarea {
       width: 100%;
       min-height: 100px;
-      border: 2px solid @control-bg;
+      border: 2px solid var(--control-bg);
       border-radius: 4px;
       padding: 10px;
       font-family: inherit;
@@ -551,7 +551,7 @@
 .Placeholder {
   padding: 60px 20px;
   text-align: center;
-  color: @muted-color;
+  color: var(--muted-color);
   
   @media @phone {
     padding: 40px 15px;
@@ -667,7 +667,7 @@
   
   &-prefix {
     font-weight: 600;
-    color: @text-color;
+    color: var(--text-color);
     margin-right: 2px;
     
     @media @phone {
@@ -713,7 +713,7 @@
   
   &-prefix {
     font-weight: 600;
-    color: @text-color;
+    color: var(--text-color);
     margin-right: 2px;
     
     @media @phone {
@@ -795,5 +795,53 @@
     text-align: center;
     color: var(--muted-color);
     font-style: italic;
+  }
+}
+// Author stat block inside .Post-side, below the avatar. Native Flarum look:
+// muted secondary text, link-colored on hover — matches post meta styling.
+// 2-column grid (icon | value) centered under the avatar so every icon and
+// every number lines up in its own column regardless of digit count.
+.Post-side .TraderStats {
+  display: grid;
+  grid-template-columns: auto auto;
+  justify-content: center;
+  align-items: center;
+  gap: 6px 8px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--control-bg);
+}
+
+.TraderStat {
+  display: contents;
+  color: var(--muted-color);
+  text-decoration: none;
+
+  i {
+    grid-column: 1;
+    justify-self: center;
+    font-size: 13px;
+    color: var(--muted-more-color);
+    transition: color 0.1s;
+  }
+
+  .TraderStat-value {
+    grid-column: 2;
+    justify-self: start;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    color: var(--muted-color);
+    transition: color 0.1s;
+  }
+
+  &:hover {
+    text-decoration: none;
+
+    i,
+    .TraderStat-value {
+      color: var(--link-color);
+    }
   }
 }

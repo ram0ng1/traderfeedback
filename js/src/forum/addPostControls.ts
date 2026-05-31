@@ -1,12 +1,17 @@
 import { extend } from 'flarum/common/extend';
 import app from 'flarum/forum/app';
-import PostControls from 'flarum/forum/utils/PostControls';
 import Button from 'flarum/common/components/Button';
 import FeedbackModal from './modals/FeedbackModal';
 
+declare const flarum: any;
+
 export default function addPostControls() {
-  // PostControls.userControls - Kullanıcı kontrolleri için
-  extend(PostControls, 'userControls', function (items, post) {
+  // Flarum 2: PostControls is a lazy-loaded util OBJECT (not a class) — extend it
+  // directly via the registry onLoad (string-form extend targets `.prototype`,
+  // which a plain object doesn't have).
+  const [ns, id] = flarum.reg.namespaceAndIdFromPath('flarum/forum/utils/PostControls');
+  flarum.reg.onLoad(ns, id, (PostControls: any) => {
+  extend(PostControls, 'userControls', function (items: any, post: any) {
     const user = post.user();
     
     // Kendine feedback veremez
@@ -46,6 +51,7 @@ export default function addPostControls() {
       ),
       10 // Pozitif priority - user controls'da
     );
+  });
   });
 }
 

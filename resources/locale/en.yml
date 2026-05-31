@@ -17,7 +17,49 @@ huseyinfiliz-traderfeedback:
   forum:
     nav:
       feedback_link: Trader Feedback
-    
+
+    reviews:
+      title: Reviews
+      nav_link: Reviews
+      search_placeholder: Search products...
+      all_categories: All categories
+      sort_label: Sort by
+      sort_newest: Newest
+      sort_oldest: Oldest
+      sort_rating: Highest rated
+      sort_reviews: Most reviewed
+      sort_views: Most viewed
+      no_products: No products found.
+      load_more: Load more
+      load_error: Could not load products.
+      product_not_found: Product not found.
+      no_reviews: No reviews yet.
+      comments: Comments
+      price: Price
+      product_url: Product link
+      unknown_user: Unknown user
+      add_product: Add product
+      product_name: Product name
+      category: Category
+      create_product_button: Create product
+      add_review: Add review
+      add_review_to: "Review: {product}"
+      field_comment_placeholder: Optional note for this aspect
+      photos_label: Photos (one image URL per line)
+      photos_placeholder: "https://i.imgur.com/example.jpg"
+      review_comment_label: General thoughts
+      submit_review: Submit review
+      comment_placeholder: Write a comment...
+      post_comment: Post comment
+      user_no_reviews: This user hasn't written any reviews yet.
+      delete_review: Delete
+      confirm_delete_review: Delete this review?
+      review_deleted: Review deleted.
+      edit_product: Edit product
+      delete_product: Delete product
+      confirm_delete_product: "Delete this product and all its reviews?"
+      save: Save
+
     form:
       title: "Give feedback to {username}"
       type_label: Feedback Type
@@ -41,10 +83,15 @@ huseyinfiliz-traderfeedback:
       success: Feedback submitted successfully
     
     user_card:
-      score_tooltip: Trader Score
+      score_tooltip: "Trader score: {score}% ({positive} positive, {neutral} neutral, {negative} negative)"
       positive_tooltip: Positive Feedbacks
       neutral_tooltip: Neutral Feedbacks
       negative_tooltip: Negative Feedbacks
+
+    post_stats:
+      posts: Posts
+      trade: Trade feedback
+      likes: Likes received
     
     feedback_page:
       stats:
@@ -140,7 +187,26 @@ huseyinfiliz-traderfeedback:
       settings: Settings
       approvals: Pending Approvals
       reports: Reports
-    
+      reviews: Reviews
+
+    reviews:
+      products_heading: Products
+      categories_heading: Categories & fields
+      search_products: Search products...
+      col_name: Name
+      col_category: Category
+      save: Save
+      saved: Saved.
+      delete: Delete
+      edit_name: "Click to rename"
+      confirm_delete_product: "Delete this product and all its reviews?"
+      new_category: New category name
+      add_category: Add category
+      confirm_delete_category: "Delete this category? Its products and reviews will be removed."
+      new_field: New field name
+      add_field: Add field
+      no_fields: No rating fields yet.
+
     settings:
       title: Trader Feedback Settings
       help_text: Configure the trader feedback system

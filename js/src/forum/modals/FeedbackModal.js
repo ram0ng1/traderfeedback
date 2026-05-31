@@ -192,10 +192,10 @@ export default class FeedbackModal extends Modal {
     
     app.request({
       method: 'POST',
-      url: app.forum.attribute('apiUrl') + '/trader/feedback',
+      url: app.forum.attribute('apiUrl') + '/trader-feedbacks',
       body: {
         data: {
-          type: 'feedbacks',
+          type: 'trader-feedbacks',
           attributes: data
         }
       }

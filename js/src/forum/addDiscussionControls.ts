@@ -1,12 +1,11 @@
 import { extend } from 'flarum/common/extend';
 import app from 'flarum/forum/app';
-import DiscussionPage from 'flarum/forum/components/DiscussionPage';
 import Button from 'flarum/common/components/Button';
 import FeedbackModal from './modals/FeedbackModal';
 import SelectUserModal from './modals/SelectUserModal';
 
 export default function addDiscussionControls() {
-  extend(DiscussionPage.prototype, 'sidebarItems', function (items) {
+  extend('flarum/forum/components/DiscussionPage', 'sidebarItems', function (items) {
     const discussion = this.discussion;
 
     if (!app.forum.attribute('huseyinfiliz.traderfeedback.showFeedbackBelowReply')) {

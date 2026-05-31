@@ -5,6 +5,7 @@ import StatsCards from './components/StatsCards';
 import FeedbackCard from './components/FeedbackCard';
 import ReportCard from './components/ReportCard';
 import SettingsTab from './components/SettingsTab';
+import ReviewsManageTab from './components/ReviewsManageTab';
 
 export default class TraderFeedbackSettingsPage extends ExtensionPage {
   activeTab: string = 'settings';
@@ -89,6 +90,16 @@ export default class TraderFeedbackSettingsPage extends ExtensionPage {
             <span className="TabButton-badge TabButton-badge--warning">{this.reports.length}</span>
           )}
         </button>
+
+        <button
+          className={'TabButton' + (this.activeTab === 'reviews' ? ' active' : '')}
+          onclick={() => {
+            this.activeTab = 'reviews';
+          }}
+        >
+          <i className="fas fa-star"></i>
+          <span>{app.translator.trans('huseyinfiliz-traderfeedback.admin.tabs.reviews')}</span>
+        </button>
       </div>
     );
   }
@@ -107,6 +118,8 @@ export default class TraderFeedbackSettingsPage extends ExtensionPage {
         return this.approvalsContent();
       case 'reports':
         return this.reportsContent();
+      case 'reviews':
+        return <ReviewsManageTab />;
       default:
         return null;
     }
@@ -216,7 +229,8 @@ export default class TraderFeedbackSettingsPage extends ExtensionPage {
 
     app.request({
       method: 'GET',
-      url: app.forum.attribute('apiUrl') + '/trader/feedback/pending',
+      url: app.forum.attribute('apiUrl') + '/trader-feedbacks',
+      params: { pendingOnly: 1 },
     }).then((response: any) => {
       this.pendingFeedbacks = response.data || [];
       this.included = response.included || [];
@@ -236,7 +250,7 @@ export default class TraderFeedbackSettingsPage extends ExtensionPage {
 
     app.request({
       method: 'GET',
-      url: app.forum.attribute('apiUrl') + '/trader/reports',
+      url: app.forum.attribute('apiUrl') + '/feedback-reports',
     }).then((response: any) => {
       this.reports = response.data || [];
       this.included = response.included || [];
@@ -270,7 +284,7 @@ export default class TraderFeedbackSettingsPage extends ExtensionPage {
 
     app.request({
       method: 'POST',
-      url: app.forum.attribute('apiUrl') + '/trader/feedback/' + feedback.id + '/approve',
+      url: app.forum.attribute('apiUrl') + '/trader-feedbacks/' + feedback.id + '/approve',
     }).then(() => {
       app.alerts.show({ type: 'success' }, app.translator.trans('huseyinfiliz-traderfeedback.admin.approvals.approved_success'));
       this.loadPendingFeedbacks();
@@ -285,7 +299,7 @@ export default class TraderFeedbackSettingsPage extends ExtensionPage {
 
     app.request({
       method: 'POST',
-      url: app.forum.attribute('apiUrl') + '/trader/feedback/' + feedback.id + '/reject',
+      url: app.forum.attribute('apiUrl') + '/trader-feedbacks/' + feedback.id + '/reject',
     }).then(() => {
       app.alerts.show({ type: 'success' }, app.translator.trans('huseyinfiliz-traderfeedback.admin.approvals.rejected_success'));
       this.loadPendingFeedbacks();
@@ -300,7 +314,7 @@ export default class TraderFeedbackSettingsPage extends ExtensionPage {
 
     app.request({
       method: 'POST',
-      url: app.forum.attribute('apiUrl') + '/trader/reports/' + report.id + '/dismiss',
+      url: app.forum.attribute('apiUrl') + '/feedback-reports/' + report.id + '/dismiss',
     }).then(() => {
       app.alerts.show({ type: 'success' }, app.translator.trans('huseyinfiliz-traderfeedback.admin.reports.dismissed_success'));
       this.loadReports();
@@ -314,7 +328,7 @@ export default class TraderFeedbackSettingsPage extends ExtensionPage {
 
     app.request({
       method: 'POST',
-      url: app.forum.attribute('apiUrl') + '/trader/reports/' + report.id + '/reject',
+      url: app.forum.attribute('apiUrl') + '/feedback-reports/' + report.id + '/reject',
     }).then(() => {
       app.alerts.show({ type: 'success' }, app.translator.trans('huseyinfiliz-traderfeedback.admin.reports.deleted_success'));
       this.loadReports();

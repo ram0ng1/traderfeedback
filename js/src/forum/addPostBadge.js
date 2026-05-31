@@ -1,129 +1,110 @@
 import { extend } from 'flarum/common/extend';
 import app from 'flarum/forum/app';
-import CommentPost from 'flarum/forum/components/CommentPost';
 
+/**
+ * Renders the MyBB-style 3-stat block inside `.Post-side`, directly below the
+ * author's avatar: posts count (blue), trade feedback total (green) and likes
+ * received (red). Added to Post.sideItems (avatar = priority 100) at a lower
+ * priority so it stacks under the avatar — like a point-system profile title.
+ * Gated by the legacy badge settings (showBadgeInPosts + tag + onlyFirstPost).
+ */
 export default function addPostBadge() {
-  extend(CommentPost.prototype, 'headerItems', function (items) {
-    // Ayar kapalıysa gösterme
+  extend('flarum/forum/components/Post', 'sideItems', function (items) {
     if (!app.forum.attribute('huseyinfiliz.traderfeedback.showBadgeInPosts')) {
       return;
     }
 
     const post = this.attrs.post;
+    if (!post || typeof post.user !== 'function') return;
     const user = post.user();
-    
-    if (!user || !user.traderStats()) return;
-    
-    const stats = user.traderStats();
-    const total = stats.positiveCount() + stats.neutralCount() + stats.negativeCount();
-    
-    // En az 1 feedback olmalı
-    if (total === 0) return;
+    if (!user) return;
 
-    // Only first post kontrolü
     const onlyFirstPost = app.forum.attribute('huseyinfiliz.traderfeedback.badgeOnlyFirstPost');
-    if (onlyFirstPost && post.number() !== 1) {
+    if (onlyFirstPost && typeof post.number === 'function' && post.number() !== 1) {
       return;
     }
 
-    // Tag filtering kontrolü
-    const tagFilterJson = app.forum.attribute('huseyinfiliz.traderfeedback.badgeTagFilter') || '[]';
-    let allowedTags = [];
-    
-    try {
-      allowedTags = JSON.parse(tagFilterJson);
-    } catch (e) {
-      allowedTags = [];
-    }
+    if (!passesTagFilter(post)) return;
 
-    // Eğer tag filter varsa, kontrolü yap
-    if (allowedTags.length > 0) {
-      const discussion = post.discussion();
-      
-      if (!discussion) return;
-      
-      const discussionTags = discussion.tags ? discussion.tags() : [];
-      
-      if (!discussionTags || discussionTags.length === 0) {
-        return; // Discussion'ın tag'i yoksa badge gösterme
-      }
-      
-      // Discussion'ın tag'lerinden en az biri allowed tags içinde olmalı
-      const hasAllowedTag = discussionTags.some(tag => 
-        allowedTags.includes(tag.id())
-      );
-      
-      if (!hasAllowedTag) {
-        return; // İzin verilen tag yoksa badge gösterme
-      }
-    }
+    const posts = Number(user.commentCount?.() ?? user.attribute('commentCount') ?? 0);
+    const trade = Number(user.attribute('traderTotalFeedback') || 0);
+    const likes = Number(user.attribute('traderLikesReceived') || 0);
 
-    // Badge text'ini oluştur
-    const badgeText = getBadgeText(stats);
-    const customPrefix = app.forum.attribute('huseyinfiliz.traderfeedback.badgeCustomPrefix') || '';
-    
+    if (posts === 0 && trade === 0 && likes === 0) return;
+
+    const profileHref = route('user', { username: user.slug() });
+    const feedbacksHref = route('user.feedbacks', { username: user.slug() });
+
+    const score = Math.round(user.attribute('traderScore') || 0);
+    const tradeTitle = app.translator.trans('huseyinfiliz-traderfeedback.forum.user_card.score_tooltip', {
+      score,
+      positive: user.attribute('traderPositiveCount') || 0,
+      neutral: user.attribute('traderNeutralCount') || 0,
+      negative: user.attribute('traderNegativeCount') || 0,
+    });
+
     items.add(
-      'traderBadge',
-      <span className="TraderBadge TraderBadge--inline">
-        <i className="fas fa-shopping-cart"></i>
-        {customPrefix && (
-          <span className="TraderBadge-prefix">{customPrefix}</span>
-        )}
-        <span className="TraderBadge-score">{badgeText}</span>
-      </span>,
-      0
+      'traderStats',
+      <div className="TraderStats">
+        <a
+          className="TraderStat TraderStat--posts"
+          href={profileHref}
+          title={app.translator.trans('huseyinfiliz-traderfeedback.forum.post_stats.posts')}
+        >
+          <i className="fas fa-comment"></i>
+          <span className="TraderStat-value">{fmt(posts)}</span>
+        </a>
+        <a className="TraderStat TraderStat--trade" href={feedbacksHref} title={tradeTitle}>
+          <i className="fas fa-shopping-cart"></i>
+          <span className="TraderStat-value">{fmt(trade)}</span>
+        </a>
+        <a
+          className="TraderStat TraderStat--likes"
+          href={profileHref}
+          title={app.translator.trans('huseyinfiliz-traderfeedback.forum.post_stats.likes')}
+        >
+          <i className="fas fa-thumbs-up"></i>
+          <span className="TraderStat-value">{fmt(likes)}</span>
+        </a>
+      </div>,
+      50
     );
   });
 }
 
-/**
- * Badge text'ini format'a göre oluşturur
- */
-function getBadgeText(stats) {
-  const format = app.forum.attribute('huseyinfiliz.traderfeedback.badgeFormat') || 'percentage';
-  
-  const total = stats.positiveCount() + stats.neutralCount() + stats.negativeCount();
-  const score = Math.round(stats.score());
-  const positive = stats.positiveCount();
-  const neutral = stats.neutralCount();
-  const negative = stats.negativeCount();
-  
-  switch (format) {
-    case 'percentage':
-      return app.translator.trans('huseyinfiliz-traderfeedback.forum.badge.format_percentage', {
-        score: score
-      });
-      
-    case 'count_percentage':
-      return app.translator.trans('huseyinfiliz-traderfeedback.forum.badge.format_count_percentage', {
-        total: total,
-        score: score
-      });
-      
-    case 'letters':
-      return app.translator.trans('huseyinfiliz-traderfeedback.forum.badge.format_letters', {
-        positive: positive,
-        neutral: neutral,
-        negative: negative
-      });
-      
-    case 'symbols':
-      return app.translator.trans('huseyinfiliz-traderfeedback.forum.badge.format_symbols', {
-        positive: positive,
-        neutral: neutral,
-        negative: negative
-      });
-      
-    case 'custom':
-      const customTemplate = app.forum.attribute('huseyinfiliz.traderfeedback.badgeCustomFormat') || '{total} ({score}%) - {positive}P / {neutral}N / {negative}N';
-      return customTemplate
-        .replace(/\{total\}/g, total)
-        .replace(/\{score\}/g, score)
-        .replace(/\{positive\}/g, positive)
-        .replace(/\{neutral\}/g, neutral)
-        .replace(/\{negative\}/g, negative);
-      
-    default:
-      return `${score}%`;
+function fmt(n) {
+  try {
+    return Number(n).toLocaleString();
+  } catch (e) {
+    return String(n);
   }
+}
+
+function route(name, params) {
+  try {
+    return app.route(name, params);
+  } catch (e) {
+    return undefined;
+  }
+}
+
+function passesTagFilter(post) {
+  const tagFilterJson = app.forum.attribute('huseyinfiliz.traderfeedback.badgeTagFilter') || '[]';
+  let allowedTags = [];
+  try {
+    allowedTags = JSON.parse(tagFilterJson);
+  } catch (e) {
+    allowedTags = [];
+  }
+
+  if (allowedTags.length === 0) return true;
+
+  if (typeof post.discussion !== 'function') return true;
+  const discussion = post.discussion();
+  if (!discussion) return false;
+
+  const discussionTags = discussion.tags ? discussion.tags() : [];
+  if (!discussionTags || discussionTags.length === 0) return false;
+
+  return discussionTags.some((tag) => allowedTags.includes(tag.id()));
 }

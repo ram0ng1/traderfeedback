@@ -1,36 +1,45 @@
 import { extend } from 'flarum/common/extend';
 import app from 'flarum/forum/app';
-import UserCard from 'flarum/forum/components/UserCard';
-import Model from 'flarum/common/Model';
-import User from 'flarum/common/models/User';
-import TraderStats from '../common/models/TraderStats';
 
 export default function addUserCardStats() {
-  // TraderStats model'ini store'a kaydet
-  app.store.models['trader-stats'] = TraderStats;
-  
-  // User model'e traderStats relationship ekle
-  User.prototype.traderStats = Model.hasOne('traderStats');
-  
-  // UserCard'a stats ekle (hem profil hem hovercard için)
-  extend(UserCard.prototype, 'infoItems', function (items) {
+  // Estatística de trade feedback no card de usuário (perfil + hovercard),
+  // no formato do MyBB: ícone de carrinho + contagem total de feedbacks,
+  // clicável para a aba de feedbacks. Lê os atributos computados do
+  // UserResource (sempre serializados) — ver src/Api/UserResourceFields.php.
+  extend('flarum/forum/components/UserCard', 'infoItems', function (items) {
     const user = this.attrs.user;
-    
-    if (!user || !user.traderStats()) return;
-    
-    const stats = user.traderStats();
-    const score = Math.round(stats.score());
-    const total = stats.positiveCount() + stats.neutralCount() + stats.negativeCount();
-    
-    if (total > 0) {
-      items.add(
-        'traderScore',
-        <div className="TraderScore">
-          <i className="fas fa-shopping-cart"></i>
-          <span className="TraderScore-value"> {score}%</span>
-        </div>,
-        10
-      );
+
+    if (!user) return;
+
+    const total = user.attribute('traderTotalFeedback') || 0;
+    if (total <= 0) return;
+
+    const score = Math.round(user.attribute('traderScore') || 0);
+    const positive = user.attribute('traderPositiveCount') || 0;
+    const neutral = user.attribute('traderNeutralCount') || 0;
+    const negative = user.attribute('traderNegativeCount') || 0;
+
+    const title = app.translator.trans('huseyinfiliz-traderfeedback.forum.user_card.score_tooltip', {
+      score,
+      positive,
+      neutral,
+      negative,
+    });
+
+    let href;
+    try {
+      href = app.route('user.feedbacks', { username: user.slug() });
+    } catch (e) {
+      href = undefined;
     }
+
+    items.add(
+      'traderFeedback',
+      <a className="TraderScore" href={href} title={title}>
+        <i className="fas fa-shopping-cart TraderScore-icon"></i>
+        <span className="TraderScore-value"> {total}</span>
+      </a>,
+      10
+    );
   });
 }
